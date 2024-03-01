@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using ProyectoWebCSNetCore.Data;
+using ProyectoWebCSNetCore.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+string connectionString =
+    builder.Configuration.GetConnectionString("SQLConciertosSolo");
+
+builder.Services.AddTransient<RepositoryConciertos>();
+builder.Services.AddDbContext<CSContext>
+    (options => options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 
