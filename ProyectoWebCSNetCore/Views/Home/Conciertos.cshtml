@@ -2,13 +2,21 @@
 
 <h1>Lista de eventos</h1>
 
-@foreach (Evento e in Model){
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
+@for (int i = 0; i < Model.Count; i++)
+{
+    if (i % 2 == 0)
+    {
+        <div class="clearfix"><br /></div>
+    }
+
+    <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
+        <img class="card-img-top" src="~/images/@Model[i].Imagen" alt="Card image cap">
         <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-primary">Go somewhere</a>
+            <h5 class="card-title">@Model[i].Nombre</h5>
+            <p>@Model[i].Fecha</p>
+            <a asp-controller="Home" asp-action="Detalles"
+            asp-route-idevento="@Model[i].IdConcierto"
+            class="btn btn-primary">Ver detalles!</a>
         </div>
     </div>
 }

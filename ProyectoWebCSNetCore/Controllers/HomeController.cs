@@ -38,6 +38,12 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(eventos);
         }
 
+        public IActionResult Detalles(int idevento)
+        {
+            Evento evento = this.repoConciertos.FindEvento(idevento);
+            return View(evento);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
