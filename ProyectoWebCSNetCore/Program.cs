@@ -11,6 +11,7 @@ string connectionString =
     builder.Configuration.GetConnectionString("SQLConciertosSolo");
 
 builder.Services.AddTransient<RepositoryConciertos>();
+builder.Services.AddTransient<RepositorySesion>();
 builder.Services.AddDbContext<CSContext>
     (options => options.UseSqlServer(connectionString));
 

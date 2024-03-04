@@ -19,5 +19,7 @@ namespace ProyectoWebCSNetCore.Models
         public int Rol { get; set; }
         [Column("BIO")]
         public string Bio { get; set; }
+        [Column("IMAGEN")]
+        public string FotoPerfil { get; set; }
     }
 }
