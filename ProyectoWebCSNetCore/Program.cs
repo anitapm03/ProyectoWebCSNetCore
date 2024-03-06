@@ -1,11 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Data;
+using ProyectoWebCSNetCore.Helpers;
 using ProyectoWebCSNetCore.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddTransient<HelperMails>();
+builder.Services.AddTransient<HelperPathProvider>();
 
 string connectionString =
     builder.Configuration.GetConnectionString("SQLConciertosSolo");
