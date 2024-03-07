@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<HelperMails>();
 builder.Services.AddTransient<HelperPathProvider>();
+builder.Services.AddSession();
 
 string connectionString =
     builder.Configuration.GetConnectionString("SQLConciertosSolo");
@@ -34,7 +35,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseSession();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");

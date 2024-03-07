@@ -39,6 +39,12 @@ namespace ProyectoWebCSNetCore.Repositories
 	    WHERE IDUSUARIO = @ID
     GO
      
+    CREATE PROCEDURE SP_FIND_EMAIL
+    (@EMAIL NVARCHAR(50))
+    AS
+	    SELECT * FROM USUARIO
+	    WHERE EMAIL = @EMAIL
+    GO
      
      */
 
@@ -84,10 +90,16 @@ namespace ProyectoWebCSNetCore.Repositories
             return token;
         }
 
-        public async Task<Usuario> LogInUserAsync(string email, string password)
+        public async Task<Usuario> LogInUserAsync(string email, string contrasena)
         {
-            Usuario user = await
-                this.context.Usuarios.FirstOrDefaultAsync(x => x.Email == email);
+            string sql = "SP_FIND_EMAIL @EMAIL";
+
+            SqlParameter pmail = new SqlParameter("@EMAIL", email);
+
+            var consulta = this.context.Usuarios.FromSqlRaw(sql, pmail);
+
+            Usuario user = consulta.AsEnumerable().FirstOrDefault();
+
             if (user == null)
             {
                 return null;
@@ -96,7 +108,7 @@ namespace ProyectoWebCSNetCore.Repositories
             {
                 string salt = user.Salt;
                 byte[] temp =
-                    HelperCryptography.EncryptPassword(password, salt);
+                    HelperCryptography.EncryptPassword(contrasena, salt);
                 byte[] passUser = user.Contrasena;
                 bool response =
                     HelperCryptography.CompareArrays(temp, passUser);

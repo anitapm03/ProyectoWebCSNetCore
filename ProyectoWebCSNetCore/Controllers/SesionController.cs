@@ -25,9 +25,9 @@ namespace ProyectoWebCSNetCore.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogIn(string email, string password)
+        public async Task<IActionResult> LogIn(string email, string contrasena)
         {
-            Usuario user = await this.repoSesion.LogInUserAsync(email, password);
+            Usuario user = await this.repoSesion.LogInUserAsync(email, contrasena);
             if (user == null)
             {
                 ViewData["MENSAJE"] = "Credenciales incorrectas";
@@ -78,5 +78,7 @@ namespace ProyectoWebCSNetCore.Controllers
             return View();
             
         }
+
+        
     }
 }
