@@ -10,7 +10,7 @@
     }
 
     <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
-        <img class="card-img-top" src="~/images/@Model[i].Imagen" alt="Card image cap">
+        <img class="card-img-top" src="~/images/eventos/@Model[i].Imagen" alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">@Model[i].Nombre</h5>
             <p>@Model[i].Fecha</p>
@@ -20,3 +20,36 @@
         </div>
     </div>
 }
+
+
+<div name="slider events">
+    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+
+            @foreach (Evento e in Model)
+            {
+                <div class="carousel-item active">
+                    <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
+                        <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@e.Nombre</h5>
+                            <p>@e.Fecha</p>
+                            <a asp-controller="Home" asp-action="Detalles"
+                               asp-route-idevento="@e.IdConcierto"
+                               class="btn btn-primary">Ver detalles!</a>
+                        </div>
+                    </div>
+                </div>
+            }
+            
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
