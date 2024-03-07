@@ -1,0 +1,32 @@
+﻿
+@model Usuario
+
+<h1>Bienvenido de nuevo @Model.Nombre!</h1>
+
+<div style="display: flex;">
+    <div style="padding: 10px; margin: 10px;">
+
+        <img src="~/images/users/@Model.FotoPerfil" style="width: 200px; height: 200px" />
+        <br /><br />
+        <button class="btn btn-outline-info">Cambiar imagen</button>
+
+    </div>
+    <br />
+    <div style="width: 50%; border: dotted; padding: 10px; margin: 10px;" >
+        <form method="post">
+            <label>Nombre de usuario:</label>
+            <input type="text" name="nombre" class="form-control" value="@Model.Nombre"/>
+            <br />
+            <label>Email:</label>
+            <input type="text" name="email" class="form-control" value="@Model.Email" />
+            <br />
+            <label>Sobre ti:</label>
+            <textarea rows="5" name="bio" class="form-control" >@Model.Bio</textarea>
+            <br />
+
+            <button class="btn btn-info">Actualizar información</button>
+        </form>
+    </div>
+</div>
+
+

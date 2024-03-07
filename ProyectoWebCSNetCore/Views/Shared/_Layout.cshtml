@@ -35,15 +35,33 @@
                 
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
+                        
+                        
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="~/images/iconouser.png" width="25" height="25" />
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Login">Log in</a>
-                                <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Registro">Registrarse</a>
+                                @if(Context.Session.GetString("USUARIO") == null)
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Login">Log in</a>
+                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Registro">Registrarse</a>
+                                }
+                                else
+                                {
+                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="EditarPerfil">Perfil</a>
+                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="CerrarSesion">Cerrar Sesión</a>
+                                }
+
                             </div>
                         </li>
+
+                        @if (Context.Session.GetString("ROL") == "1")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="PanelAdmin">Administrar</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>

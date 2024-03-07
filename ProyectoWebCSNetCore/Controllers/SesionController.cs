@@ -36,8 +36,20 @@ namespace ProyectoWebCSNetCore.Controllers
             else
             {
                 HttpContext.Session.SetString("USUARIO", user.Nombre);
+                HttpContext.Session.SetString("ROL", user.Rol.ToString());
+                HttpContext.Session.SetString("IDUSUARIO", user.IdUsuario.ToString());
+                //TempData["USER"] = user;
                 ViewData["MENSAJE"] = user.Nombre;
-                return View(user);
+
+                //redirigir a su respectivo panel
+                if (user.Rol == 1)
+                {
+                    return RedirectToAction("PanelAdmin", "Admin");
+                }
+                else
+                {
+                    return RedirectToAction("Conciertos", "Home");
+                }
             }
         }
 
@@ -79,6 +91,27 @@ namespace ProyectoWebCSNetCore.Controllers
             
         }
 
-        
+        //edición de perfil
+        public async Task<IActionResult> EditarPerfil()
+        {
+            string idusuario = HttpContext.Session.GetString("IDUSUARIO");
+            Usuario user = await this.repoSesion.FindUserAsync(idusuario);
+            return View(user);
+        }
+
+        [HttpPost]
+        public IActionResult EditarPerfil(string nombre, string email, string bio)
+        {
+            int id = int.Parse(HttpContext.Session.GetString("IDUSUARIO"));
+            Usuario user = this.repoSesion.ActualizarInfoUsuario(id, nombre, email, bio);
+            return View(user);
+        }
+
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Remove("USUARIO");
+            HttpContext.Session.Remove("ROL");
+            return RedirectToAction("Index", "Home");
+        }
     }
 }

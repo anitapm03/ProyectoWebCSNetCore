@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Helpers;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
+using NuGet.Common;
 
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -44,6 +45,19 @@ namespace ProyectoWebCSNetCore.Repositories
     AS
 	    SELECT * FROM USUARIO
 	    WHERE EMAIL = @EMAIL
+    GO
+
+    CREATE PROCEDURE SP_UPDATE_USER
+    (@ID INT,
+    @NOMBRE NVARCHAR(30),
+    @EMAIL NVARCHAR(50),
+    @BIO NVARCHAR(500))
+    AS
+	    UPDATE USUARIO SET NOMBRE = @NOMBRE,
+	    EMAIL = @EMAIL, BIO = @BIO
+	    WHERE IDUSUARIO = @ID
+	    SELECT * FROM USUARIO 
+	    WHERE IDUSUARIO = @ID
     GO
      
      */
@@ -143,6 +157,33 @@ namespace ProyectoWebCSNetCore.Repositories
                            where datos.TokenMail == token
                            select datos;
             Usuario user = await consulta.FirstOrDefaultAsync();
+            return user;
+        }
+
+        public async Task<Usuario> FindUserAsync(string idusuario)
+        {
+            var consulta = from datos in this.context.Usuarios
+                           where datos.IdUsuario == int.Parse(idusuario)
+                           select datos;
+            Usuario user = await consulta.FirstOrDefaultAsync();
+            return user;
+        }
+
+        public Usuario ActualizarInfoUsuario
+            (int id, string nombre, string email, string bio)
+        {
+            string sql = "SP_UPDATE_USER @ID, @NOMBRE, @EMAIL, @BIO";
+
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter pnom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter pmail = new SqlParameter("@EMAIL", email);
+            SqlParameter pbio = new SqlParameter("@BIO", bio);
+
+            var consulta = this.context.Usuarios.FromSqlRaw(sql, pid, pnom, pmail, pbio);
+
+            Usuario user = consulta.AsEnumerable().FirstOrDefault();
+
             return user;
         }
 
