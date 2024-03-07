@@ -41,8 +41,9 @@ namespace ProyectoWebCSNetCore.Controllers
             }
         }
 
-        public async Task<IActionResult> ActivateUser(string token)
+        public async Task<IActionResult> ActivateUser()
         {
+            string token = TempData["TOKEN"] as string;
             await this.repoSesion.ActivateUserAsync(token);
             ViewData["MENSAJE"] = "Cuenta activada correctamente";
             return View();
@@ -62,8 +63,10 @@ namespace ProyectoWebCSNetCore.Controllers
                 this.repoSesion.InsertarUsuario(nombre, email, contrasena, bio);
 
             string serverUrl = this.helperPathProvider.MapUrlServerPath();
+
+            TempData["TOKEN"] = token;
             
-            serverUrl = serverUrl + "/Session/ActivateUser/" + token;
+            serverUrl = serverUrl + "/Sesion/ActivateUser/" + token;
             string mensaje = "<h3>Usuario registrado</h3>";
             mensaje += "<p>Debe activar su cuenta con nosotros pulsando el siguiente enlace</p>";
             mensaje += "<p>" + serverUrl + "</p>";

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Helpers;
+using System.Net.NetworkInformation;
+using System.Security.Cryptography;
 
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -24,7 +26,21 @@ namespace ProyectoWebCSNetCore.Repositories
         SELECT @ID = MAX(IDUSUARIO) + 1 FROM USUARIO;
         INSERT INTO USUARIO VALUES(@ID, @NOMBRE, @EMAIL,
         @CONTRASENA, 0, @BIO , @IMAGEN, @SALT, @ACTIVO, @TOKENMAIL)
-    GO*/
+    GO
+    
+     alter PROCEDURE SP_FINDTOKEN_ACTIVATEUSER
+    (@TOKEN NVARCHAR(MAX),
+    @ACTIVO BIT)
+    AS
+	    DECLARE @ID INT;
+	    SELECT @ID = IDUSUARIO FROM USUARIO
+	    WHERE TOKENMAIL = @TOKEN;
+	    UPDATE USUARIO SET TOKENMAIL = '', ACTIVO = @ACTIVO
+	    WHERE IDUSUARIO = @ID
+    GO
+     
+     
+     */
 
     #endregion
     public class RepositorySesion
@@ -98,11 +114,24 @@ namespace ProyectoWebCSNetCore.Repositories
         public async Task ActivateUserAsync(string token)
         {
             //BUSCAMOS EL USUARIO POR SU TOKEN
-            Usuario user = await
-                this.context.Usuarios.FirstOrDefaultAsync(x => x.TokenMail == token);
-            user.Activo = true;
-            user.TokenMail = "";
-            await this.context.SaveChangesAsync();
+            //Usuario user = await this.FindUserTokenAsync(token);
+            bool activo = true;
+
+            SqlParameter ptoken = new SqlParameter("@TOKEN", token);
+            SqlParameter pact = new SqlParameter("@ACTIVO", activo);
+            string sql = "SP_FINDTOKEN_ACTIVATEUSER @TOKEN, @ACTIVO";
+            
+
+            this.context.Database.ExecuteSqlRaw(sql, ptoken, pact);
+        }
+
+        public async Task<Usuario> FindUserTokenAsync(string token)
+        {
+            var consulta = from datos in this.context.Usuarios
+                           where datos.TokenMail == token
+                           select datos;
+            Usuario user = await consulta.FirstOrDefaultAsync();
+            return user;
         }
 
     }
