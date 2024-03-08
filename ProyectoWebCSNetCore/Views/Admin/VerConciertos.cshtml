@@ -1,0 +1,34 @@
+﻿@model List<Evento>
+
+<h1>Administrar conciertos:</h1>
+<a asp-controller="Admin" asp-action="PanelAdmin"
+   class="btn btn-outline-dark">
+    Volver
+</a>
+<a asp-controller="Admin" asp-action="CrearConcierto"
+   class="btn btn-outline-success">
+    Nuevo Concierto
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Fecha</th>
+            <th>Sala</th>
+            <th>Provincia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Evento e in Model)
+        {
+            <tr>
+                <th>@e.Nombre</th>
+                <th>@e.Fecha</th>
+                <th>@e.NombreSala</th>
+                <th>@e.Provincia</th>
+            </tr>
+        }
+    </tbody>
+</table>

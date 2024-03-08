@@ -16,6 +16,9 @@ string connectionString =
 
 builder.Services.AddTransient<RepositoryConciertos>();
 builder.Services.AddTransient<RepositorySesion>();
+builder.Services.AddTransient<RepositoryProvincias>();
+builder.Services.AddTransient<RepositoryPeticiones>();
+builder.Services.AddTransient<RepositorySalas>();
 builder.Services.AddDbContext<CSContext>
     (options => options.UseSqlServer(connectionString));
 

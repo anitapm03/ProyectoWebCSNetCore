@@ -22,7 +22,21 @@ namespace ProyectoWebCSNetCore.Repositories
         INNER JOIN PROVINCIA P
 
         ON S.IDPROVINCIA = P.IDPROVINCIA
-    GO*/
+    GO
+    
+     CREATE PROCEDURE SP_INSERT_CONCIERTO
+    (@NOMBRE NVARCHAR(50),
+    @FECHA DATETIME,
+    @FOTO NVARCHAR(200),
+    @ENTRADAS NVARCHAR(200),
+    @IDSALA INT)
+    AS
+	    DECLARE @ID INT
+	    SELECT @ID = MAX(IDCONCIERTO) + 1 FROM CONCIERTO
+	    INSERT INTO CONCIERTO VALUES(@ID, @NOMBRE, @FECHA, @FOTO, @ENTRADAS, @IDSALA, 0)
+    GO
+     
+     */
     #endregion
 
     public class RepositoryConciertos
@@ -47,6 +61,11 @@ namespace ProyectoWebCSNetCore.Repositories
                            where datos.IdConcierto == idevento
                            select datos;
             return consulta.FirstOrDefault();
+        }
+
+        public void InsertarConcierto()
+        {
+
         }
     }
 }

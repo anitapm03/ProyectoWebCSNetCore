@@ -1,6 +1,20 @@
 ﻿@model List<Evento>
 
-<h1>Lista de eventos</h1>
+<div style="display: flex;">
+    <div style="text-align: left;">
+
+        <h1>Lista de eventos</h1>
+        
+    </div>
+    <div style="text-align: right;">
+        <p>¿No tenemos el Concierto que buscas?<br/>
+            Rellena este 
+            <a asp-controller="Acciones" asp-action="SolicitarConcierto" class="btn btn-outline-dark">
+                formulario
+            </a>
+        </p>
+    </div>
+</div>
 
 @for (int i = 0; i < Model.Count; i++)
 {

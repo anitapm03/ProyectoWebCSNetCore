@@ -7,10 +7,14 @@ namespace ProyectoWebCSNetCore.Controllers
     public class AccionesController : Controller
     {
         private RepositoryProvincias repoProvincias;
+        private RepositoryPeticiones repoPeticiones;
 
-        public AccionesController(RepositoryProvincias repoProvincias)
+        public AccionesController(
+            RepositoryProvincias repoProvincias,
+            RepositoryPeticiones repoPeticiones)
         {
             this.repoProvincias = repoProvincias;
+            this.repoPeticiones = repoPeticiones;
         }
 
         public IActionResult SolicitarConcierto()
@@ -22,9 +26,11 @@ namespace ProyectoWebCSNetCore.Controllers
 
         [HttpPost]
         public IActionResult SolicitarConcierto
-            ()
+            (string nombre, int idprovincia, DateTime fecha, string telefono)
         {
-            return View();
+            this.repoPeticiones.InsertarPeticion(nombre, idprovincia, fecha, telefono);
+            return RedirectToAction("Conciertos", "Home");
         }
+
     }
 }

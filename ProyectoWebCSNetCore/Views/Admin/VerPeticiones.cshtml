@@ -1,0 +1,28 @@
+﻿@model List<Peticion>
+
+<h1>Lista de peticiones de concietos:</h1>
+<a asp-controller="Admin" asp-action="PanelAdmin"
+class="btn btn-outline-dark">
+    Volver
+</a>
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Provincia</th>
+            <th>Fecha</th>
+            <th>Teléfono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Peticion p in Model)
+        {
+            <tr>
+                <th>@p.NombreArtista</th>
+                <th>@p.Provincia</th>
+                <th>@p.Fecha</th>
+                <th>@p.Telefono</th>
+            </tr>
+        }
+    </tbody>
+</table>

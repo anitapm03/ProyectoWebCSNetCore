@@ -1,0 +1,25 @@
+﻿@model List<Sala>
+
+<h1>Nuevo Concierto</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="text" name="nombre" placeholder="Nombre del evento" class="form-control" />
+    <br />
+    <input type="date" name="fecha" class="form-control" />
+    <br />
+    <label>Imagen:</label>
+    <input type="file" name="foto" class="form-control" />
+    <br />
+    <input type="text" name="entradas" placeholder="Enlace a las entradas" class="form-control" />
+    <br />
+    <select name="sala" class="form-control">
+        @foreach(Sala s in Model)
+        {
+            <option value="@s.IdSala">
+                @s.Nombre
+            </option>
+        }
+    </select>
+    <br />
+    <button class="btn btn-success">Guardar!</button>
+</form>

@@ -12,5 +12,9 @@ namespace ProyectoWebCSNetCore.Data
         public DbSet<Evento> Eventos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Provincia> Provincias { get; set; }
+        public DbSet<PeticionEvento> Peticiones { get; set; }
+        public DbSet<Peticion> ListaPeticiones { get; set; }
+
+        public DbSet<Sala> Salas { get; set; }
     }
 }
