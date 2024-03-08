@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 
 namespace ProyectoWebCSNetCore.Helpers
 {
+
     public class HelperPathProvider
     {
         private IServer server;

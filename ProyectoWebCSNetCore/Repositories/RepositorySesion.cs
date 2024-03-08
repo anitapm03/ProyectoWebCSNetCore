@@ -60,6 +60,23 @@ namespace ProyectoWebCSNetCore.Repositories
 	    WHERE IDUSUARIO = @ID
     GO
      
+    CREATE PROCEDURE SP_UPDATE_USER_FOTO
+    (@ID INT,
+    @IMAGEN NVARCHAR(200))
+    AS
+        UPDATE USUARIO SET IMAGEN = @IMAGEN
+        WHERE IDUSUARIO = @ID
+    GO
+
+    
+    CREATE PROCEDURE SP_UPDATE_USER_PASSW
+    (@ID INT,
+    @PASW VARBINARY(MAX),
+    @SALT NVARCHAR(50))
+    AS
+	    UPDATE USUARIO SET CONTRASENA = @PASW,
+	    SALT = @SALT WHERE IDUSUARIO = @ID
+    GO
      */
 
     #endregion
@@ -103,6 +120,8 @@ namespace ProyectoWebCSNetCore.Repositories
 
             return token;
         }
+
+        
 
         public async Task<Usuario> LogInUserAsync(string email, string contrasena)
         {
@@ -187,5 +206,29 @@ namespace ProyectoWebCSNetCore.Repositories
             return user;
         }
 
+        public void UpdatePicture(int id, string imagen)
+        {
+            string sql = "SP_UPDATE_USER_FOTO @ID, @IMAGEN";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter pfoto = new SqlParameter("@IMAGEN", imagen);
+
+            var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, pfoto);
+        }
+
+        public void UpdatePassw(int id, string contrasena)
+        {
+            string salt = HelperCryptography.GenerateSalt();
+            byte[] passw = HelperCryptography.EncryptPassword(contrasena, salt);
+
+            string sql = "SP_UPDATE_USER_PASSW @ID, @PASW, @SALT";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter ppas = new SqlParameter("@PASW", passw);
+            SqlParameter psalt = new SqlParameter("@SALT", salt);
+
+            var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, ppas, psalt);
+
+        }
     }
 }

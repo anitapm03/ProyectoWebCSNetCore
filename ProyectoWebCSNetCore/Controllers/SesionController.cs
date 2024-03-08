@@ -11,13 +11,16 @@ namespace ProyectoWebCSNetCore.Controllers
         private RepositorySesion repoSesion;
         private HelperPathProvider helperPathProvider;
         private HelperMails helperMails;
+        private IWebHostEnvironment hostEnvironment;
 
         public SesionController(RepositorySesion repoSesion, 
-            HelperPathProvider helperPathProvider, HelperMails helperMails)
+            HelperPathProvider helperPathProvider, HelperMails helperMails,
+            IWebHostEnvironment hostEnvironment)
         {
             this.repoSesion = repoSesion;
             this.helperPathProvider = helperPathProvider;
             this.helperMails = helperMails;
+            this.hostEnvironment = hostEnvironment;
         }
         public IActionResult Login()
         {
@@ -112,6 +115,49 @@ namespace ProyectoWebCSNetCore.Controllers
             HttpContext.Session.Remove("USUARIO");
             HttpContext.Session.Remove("ROL");
             return RedirectToAction("Index", "Home");
+        }
+
+
+        public async Task<IActionResult> CambiarFotoPerfil()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CambiarFotoPerfil
+            (IFormFile foto)
+        {
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = foto.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "users" , fileName);
+
+            using(Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            int id = int.Parse(HttpContext.Session.GetString("IDUSUARIO"));
+            this.repoSesion.UpdatePicture(id, fileName);
+
+            ViewData["MENSAJE"] = "subido en " + path;
+            return RedirectToAction("EditarPerfil");
+        }
+
+        public IActionResult CambiarContrasena()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult CambiarContrasena(string contrasena)
+        {
+
+            int id = int.Parse(HttpContext.Session.GetString("IDUSUARIO"));
+            this.repoSesion.UpdatePassw(id, contrasena);
+            
+            return RedirectToAction("EditarPerfil");
         }
     }
 }

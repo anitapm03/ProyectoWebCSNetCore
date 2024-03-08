@@ -8,7 +8,13 @@
 
         <img src="~/images/users/@Model.FotoPerfil" style="width: 200px; height: 200px" />
         <br /><br />
-        <button class="btn btn-outline-info">Cambiar imagen</button>
+        <a asp-controller="Sesion" asp-action="CambiarFotoPerfil" class="btn btn-outline-info">
+            Cambiar la foto
+        </a>
+        <br /><br />
+        <a asp-controller="Sesion" asp-action="CambiarContrasena" class="btn btn-outline-success">
+            Cambiar contraseña
+        </a>
 
     </div>
     <br />
