@@ -1,0 +1,27 @@
+﻿@model List<Usuario>
+
+<h1>Administrar usuarios:</h1>
+
+<a asp-controller="Admin" asp-action="PanelAdmin"
+   class="btn btn-outline-dark">
+    Volver
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Email</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Usuario user in Model)
+        {
+            <tr>
+                <th>@user.Nombre</th>
+                <th>@user.Email</th>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -9,6 +9,7 @@ using ProyectoWebCSNetCore.Helpers;
 using System.Net.NetworkInformation;
 using System.Security.Cryptography;
 using NuGet.Common;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -86,6 +87,13 @@ namespace ProyectoWebCSNetCore.Repositories
         public RepositorySesion(CSContext context) 
         {
             this.context = context;
+        }
+
+        public List<Usuario> GetUsuarios()
+        {
+            var consulta = from datos in context.Usuarios
+                           select datos;
+            return consulta.ToList();
         }
 
         public string InsertarUsuario

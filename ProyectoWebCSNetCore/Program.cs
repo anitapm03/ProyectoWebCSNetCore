@@ -19,6 +19,9 @@ builder.Services.AddTransient<RepositorySesion>();
 builder.Services.AddTransient<RepositoryProvincias>();
 builder.Services.AddTransient<RepositoryPeticiones>();
 builder.Services.AddTransient<RepositorySalas>();
+builder.Services.AddTransient<RepositoryArtistas>();
+builder.Services.AddTransient<RepositoryGeneros>();
+builder.Services.AddTransient<RepositoryPublicaciones>();
 builder.Services.AddDbContext<CSContext>
     (options => options.UseSqlServer(connectionString));
 

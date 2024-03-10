@@ -12,16 +12,23 @@ class="btn btn-outline-dark">
             <th>Provincia</th>
             <th>Fecha</th>
             <th>Teléfono</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
         @foreach(Peticion p in Model)
         {
             <tr>
-                <th>@p.NombreArtista</th>
-                <th>@p.Provincia</th>
-                <th>@p.Fecha</th>
-                <th>@p.Telefono</th>
+                <td>@p.NombreArtista</td>
+                <td>@p.Provincia</td>
+                <td>@p.Fecha</td>
+                <td>@p.Telefono</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EliminarPeticion"
+                    asp-route-id="@p.IdPeticion" class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

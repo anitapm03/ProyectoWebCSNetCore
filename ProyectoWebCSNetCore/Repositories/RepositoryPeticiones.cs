@@ -3,6 +3,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Data;
 using ProyectoWebCSNetCore.Models;
+using System.Drawing;
 using System.Security.Cryptography;
 #region PROC
 /*CREATE PROCEDURE SP_INSERT_PETICION (
@@ -15,7 +16,14 @@ AS
 	SELECT @ID = MAX(IDPETICION) + 1 FROM PETICIONEVENTO
 	INSERT INTO PETICIONEVENTO VALUES (@ID, @NOMBRE, @PROV,
     @FECHA, @TELF)
-GO*/
+GO
+
+alter PROCEDURE SP_ELIMINARPETICION
+(@ID INT)
+AS
+	DELETE FROM PETICIONEVENTO WHERE IDPETICION = @ID;
+GO
+ */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -54,6 +62,14 @@ namespace ProyectoWebCSNetCore.Repositories
             var consulta = from datos in this.context.ListaPeticiones
                            select datos;
             return consulta.ToList();
+        }
+
+        public void EliminarPeticion(int id)
+        {
+            string sql = "SP_ELIMINARPETICION @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
         }
     }
 }

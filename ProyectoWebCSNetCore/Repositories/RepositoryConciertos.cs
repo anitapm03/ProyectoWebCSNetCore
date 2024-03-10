@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Data;
 using ProyectoWebCSNetCore.Models;
 using System.Diagnostics.Metrics;
@@ -29,11 +31,12 @@ namespace ProyectoWebCSNetCore.Repositories
     @FECHA DATETIME,
     @FOTO NVARCHAR(200),
     @ENTRADAS NVARCHAR(200),
-    @IDSALA INT)
+    @IDSALA INT,
+    @GRUPO NVARCHAR(200))
     AS
 	    DECLARE @ID INT
 	    SELECT @ID = MAX(IDCONCIERTO) + 1 FROM CONCIERTO
-	    INSERT INTO CONCIERTO VALUES(@ID, @NOMBRE, @FECHA, @FOTO, @ENTRADAS, @IDSALA, 0)
+	    INSERT INTO CONCIERTO VALUES(@ID, @NOMBRE, @FECHA, @FOTO, @ENTRADAS, @IDSALA, 0, @GRUPO)
     GO
      
      */
@@ -63,9 +66,21 @@ namespace ProyectoWebCSNetCore.Repositories
             return consulta.FirstOrDefault();
         }
 
-        public void InsertarConcierto()
+        public void InsertarConcierto(string nombre, DateTime fecha, string foto,
+            string entradas, int sala, string grupo)
         {
+            string sql = "SP_INSERT_CONCIERTO @NOMBRE, @FECHA, " +
+                "@FOTO, @ENTRADAS, @IDSALA, @GRUPO";
 
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter fe = new SqlParameter("@FECHA", fecha);
+            SqlParameter fo = new SqlParameter("@FOTO", foto);
+            SqlParameter ent = new SqlParameter("@ENTRADAS", entradas);
+            SqlParameter ids = new SqlParameter("@IDSALA", sala);
+            SqlParameter gr = new SqlParameter("@GRUPO", grupo);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, nom, fe, fo, ent, ids, gr);
         }
     }
 }

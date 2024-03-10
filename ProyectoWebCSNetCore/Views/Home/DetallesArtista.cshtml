@@ -1,0 +1,15 @@
+﻿@model Artista
+
+<h1>Detalles del artista</h1>
+
+<div>
+    <img src="~/images/artistas/@Model.Imagen" 
+    style="width:200px;height:200px;" />
+</div>
+<div>
+    <h1>@Model.Nombre</h1>
+    <p>@Model.Descripcion</p>
+    <a href="@Model.Spotify" class="btn btn-success">
+        Spotify
+    </a>
+</div>

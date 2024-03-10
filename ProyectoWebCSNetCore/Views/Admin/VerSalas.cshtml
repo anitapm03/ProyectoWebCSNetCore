@@ -1,0 +1,33 @@
+﻿@model List<Sala>
+
+<h1>Administrar salas:</h1>
+<a asp-controller="Admin" asp-action="PanelAdmin"
+   class="btn btn-outline-dark">
+    Volver
+</a>
+<a asp-controller="Admin" asp-action="CrearSala"
+   class="btn btn-outline-success">
+    Nueva Sala
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Direccion</th>
+            <th>Provincia</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Sala s in Model)
+        {
+            <tr>
+                <th>@s.Nombre</th>
+                <th>@s.Direccion</th>
+                <th>@s.IdProvincia</th>
+                
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,29 @@
+﻿@model List<Genero>
+
+<h1>Administrar generos:</h1>
+
+<a asp-controller="Admin" asp-action="PanelAdmin"
+   class="btn btn-outline-dark">
+    Volver
+</a>
+<a asp-controller="Admin" asp-action="CrearGenero"
+   class="btn btn-outline-success">
+    Nuevo Género
+</a>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Genero g in Model)
+        {
+            <tr>
+                <td>@g.Nombre</td>
+            </tr>
+        }
+    </tbody>
+</table>

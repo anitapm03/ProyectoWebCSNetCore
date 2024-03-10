@@ -1,0 +1,18 @@
+﻿@model List<Artista>
+
+<h1>Lista de artistas:</h1>
+
+
+@foreach (Artista a in Model)
+{
+    <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
+        <img class="card-img-top" src="~/images/artistas/@a.Imagen" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@a.Nombre</h5>
+            <a asp-controller="Home" asp-action="DetallesArtista"
+               asp-route-idevento="@a.IdArtista"
+               class="btn btn-primary">Ver detalles!</a>
+        </div>
+    </div>
+}
+

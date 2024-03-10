@@ -17,7 +17,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class ="nav-item">
                             <a class="navbar-brand" href="#">
-                                <img src="~/images/logoblanco.jpg" alt="ConciertosSolo" width="40" height="40">
+                                <img src="~/images/logosinfondo.png" alt="ConciertosSolo" width="50" height="50">
                             </a>
                         </li>
                         <li class="nav-item">
@@ -27,8 +27,21 @@
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Conciertos">Conciertos</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Artistas">Artistas</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-controller="Home" asp-action="Quienes">¿Quienes somos?</a>
                         </li>
+
+                        @if (Context.Session.GetString("USUARIO") != null)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Publicaciones">Feed</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Acciones" asp-action="CrearPubli">Crear Publicación</a>
+                            </li>
+                        }
                         
                     </ul>
                 </div>
@@ -62,6 +75,8 @@
                                 <a class="nav-link text-dark" asp-controller="Admin" asp-action="PanelAdmin">Administrar</a>
                             </li>
                         }
+
+                        
                     </ul>
                 </div>
             </div>

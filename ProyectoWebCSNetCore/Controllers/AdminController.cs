@@ -9,14 +9,32 @@ namespace ProyectoWebCSNetCore.Controllers
         private RepositoryPeticiones repoPeticiones;
         private RepositoryConciertos repoConciertos;
         private RepositorySalas repoSalas;
+        private RepositoryProvincias repoProvincias;
+        private IWebHostEnvironment hostEnvironment;
+        private RepositoryArtistas repoArtistas;
+        private RepositoryGeneros repoGeneros;
+        private RepositorySesion repoSesion;
+        private RepositoryPublicaciones repoPublicaciones;
 
         public AdminController(RepositoryPeticiones repoPeticiones, 
             RepositoryConciertos repoConciertos, 
-            RepositorySalas repoSalas)
+            RepositorySalas repoSalas,
+            RepositoryProvincias repoProvincias,
+            IWebHostEnvironment hostEnvironment,
+            RepositoryArtistas repoArtistas,
+            RepositoryGeneros repoGeneros,
+            RepositorySesion repoSesion,
+            RepositoryPublicaciones repoPublicaciones)
         {
             this.repoPeticiones = repoPeticiones;
             this.repoConciertos = repoConciertos;
             this.repoSalas = repoSalas;
+            this.repoProvincias = repoProvincias;
+            this.hostEnvironment = hostEnvironment;
+            this.repoArtistas = repoArtistas;
+            this.repoGeneros = repoGeneros;
+            this.repoSesion = repoSesion;
+            this.repoPublicaciones = repoPublicaciones;
         }
 
         public IActionResult PanelAdmin()
@@ -30,22 +48,122 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(peticiones);
         }
 
+        public IActionResult EliminarPeticion(int id)
+        {
+            this.repoPeticiones.EliminarPeticion(id);
+            return RedirectToAction("VerPeticiones");
+        }
+
         public IActionResult VerConciertos()
         {
             List<Evento> conciertos = this.repoConciertos.GetEventos(); 
             return View(conciertos);
         }
 
-        public IActionResult CrearConcierto()
+        public async Task<IActionResult> CrearConciertoAsync()
         {
             List<Sala> salas = this.repoSalas.GetSalas();
             return View(salas);
         }
 
-        [HttpPatch]
-        public IActionResult CrearConcierto(Concierto concierto)
+        [HttpPost]
+        public async Task<IActionResult> CrearConciertoAsync
+            (string nombre, DateTime fecha, IFormFile foto,
+            string entradas, int sala, string grupo)
         {
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = foto.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "eventos", fileName);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            this.repoConciertos.InsertarConcierto
+                (nombre, fecha, fileName, entradas, sala, grupo);
             return RedirectToAction("VerConciertos");
         }
+
+        public IActionResult VerSalas()
+        {
+            List<Sala> salas = this.repoSalas.GetSalas();
+            return View(salas);
+        }
+
+        public IActionResult CrearSala()
+        {
+            List<Provincia> provincias = this.repoProvincias.GetProvincias();
+            return View(provincias);
+        }
+        [HttpPost]
+        public IActionResult CrearSala(string direccion, string nombre, int provincia)
+        {
+            this.repoSalas.CrearSala(direccion, nombre, provincia);
+            return RedirectToAction("VerSalas");
+        }
+
+        public IActionResult VerArtistas()
+        {
+            List<Artista> artistas = this.repoArtistas.GetArtistas(); 
+            return View(artistas);
+        }
+
+        public async Task<IActionResult> CrearArtista()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CrearArtista
+            (string nombre, IFormFile foto, string spotify, string descripcion)
+        {
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = foto.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "artistas", fileName);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            this.repoArtistas.InsertarArtista(nombre, fileName, spotify, descripcion);
+
+            return RedirectToAction("VerArtistas");
+        }
+
+        public IActionResult VerGeneros()
+        {
+            List<Genero> generos = this.repoGeneros.GetGeneros();
+            return View(generos);
+        }
+        
+        public IActionResult CrearGenero()
+        {
+            return View();
+        }
+        [HttpPost]
+        public IActionResult CrearGenero(string nombre)
+        {
+            this.repoGeneros.InsertGenero(nombre);
+            return RedirectToAction("VerGeneros");
+        }
+
+        public IActionResult VerUsuarios()
+        {
+            List<Usuario> users = this.repoSesion.GetUsuarios();
+            return View(users);
+        }
+
+        public IActionResult VerPublicaciones()
+        {
+            List<UserPubli> userPublis = this.repoPublicaciones.GetPublicaciones();
+            return View(userPublis);
+        }
+
+        
     }
 }

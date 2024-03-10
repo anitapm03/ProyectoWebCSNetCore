@@ -1,0 +1,20 @@
+﻿@model List<Provincia>
+
+<h1>Nueva Sala</h1>
+
+<form method="post" >
+    <input type="text" name="nombre" placeholder="Nombre de la sala" class="form-control" />
+    <br />
+    <input type="text" name="direccion" placeholder="Dirección" class="form-control" />
+    <br />
+    <select name="provincia" class="form-control">
+        @foreach (Provincia p in Model)
+        {
+            <option value="@p.IdProvincia">
+                @p.Nombre
+            </option>
+        }
+    </select>
+    <br />
+    <button class="btn btn-success">Guardar!</button>
+</form>

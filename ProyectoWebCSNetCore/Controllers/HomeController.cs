@@ -9,12 +9,18 @@ namespace ProyectoWebCSNetCore.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private RepositoryConciertos repoConciertos;
+        private RepositoryArtistas repoArtistas;
+        private RepositoryPublicaciones repoPublicaciones;
 
         public HomeController(ILogger<HomeController> logger,
-            RepositoryConciertos repoConciertos)
+            RepositoryConciertos repoConciertos,
+            RepositoryArtistas repoArtistas,
+            RepositoryPublicaciones repoPublicaciones)
         {
             _logger = logger;
             this.repoConciertos =  repoConciertos;
+            this.repoArtistas = repoArtistas;
+            this.repoPublicaciones = repoPublicaciones;
         }
 
         public IActionResult Index()
@@ -38,10 +44,28 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(eventos);
         }
 
-        public IActionResult Detalles(int idevento)
+        public IActionResult DetallesConcierto(int idevento)
         {
             Evento evento = this.repoConciertos.FindEvento(idevento);
             return View(evento);
+        }
+
+        public IActionResult Artistas()
+        {
+            List<Artista> artistas = this.repoArtistas.GetArtistas();
+            return View(artistas);
+        }
+
+        public IActionResult DetallesArtista(int idartista)
+        {
+            Artista artista = this.repoArtistas.FindArtista(idartista);
+            return View(artista);
+        }
+
+        public IActionResult Publicaciones()
+        {
+            List<UserPubli> publicaciones = this.repoPublicaciones.GetPublicaciones();
+            return View(publicaciones);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

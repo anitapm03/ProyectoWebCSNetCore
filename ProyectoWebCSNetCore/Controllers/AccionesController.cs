@@ -8,13 +8,19 @@ namespace ProyectoWebCSNetCore.Controllers
     {
         private RepositoryProvincias repoProvincias;
         private RepositoryPeticiones repoPeticiones;
+        private RepositoryPublicaciones repoPublicaciones;
+        private IWebHostEnvironment hostEnvironment;
 
         public AccionesController(
             RepositoryProvincias repoProvincias,
-            RepositoryPeticiones repoPeticiones)
+            RepositoryPeticiones repoPeticiones,
+            RepositoryPublicaciones repoPublicaciones,
+            IWebHostEnvironment hostEnvironment)
         {
             this.repoProvincias = repoProvincias;
             this.repoPeticiones = repoPeticiones;
+            this.repoPublicaciones = repoPublicaciones;
+            this.hostEnvironment = hostEnvironment;
         }
 
         public IActionResult SolicitarConcierto()
@@ -31,6 +37,34 @@ namespace ProyectoWebCSNetCore.Controllers
             this.repoPeticiones.InsertarPeticion(nombre, idprovincia, fecha, telefono);
             return RedirectToAction("Conciertos", "Home");
         }
+
+        public IActionResult CrearPubli()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearPubli
+            (string texto, IFormFile foto)
+        {
+            string rootFolder =
+                this.hostEnvironment.WebRootPath;
+            string fileName = foto.FileName;
+
+            string path = Path.Combine(rootFolder, "images", "publicaciones", fileName);
+
+            using (Stream stream = new FileStream(path, FileMode.Create))
+            {
+                await foto.CopyToAsync(stream);
+            }
+
+            int idusuario = int.Parse(HttpContext.Session.GetString("IDUSUARIO"));
+            DateTime fecha = DateTime.Now;
+
+            this.repoPublicaciones.InsertPubli(idusuario, texto, fileName, fecha);
+            return RedirectToAction("Publicaciones", "Home");
+        }
+
 
     }
 }
