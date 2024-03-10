@@ -39,6 +39,12 @@ namespace ProyectoWebCSNetCore.Repositories
 	    INSERT INTO CONCIERTO VALUES(@ID, @NOMBRE, @FECHA, @FOTO, @ENTRADAS, @IDSALA, 0, @GRUPO)
     GO
      
+    
+CREATE PROCEDURE SP_ELIMINARCONCIERTO
+(@ID INT)
+AS
+	DELETE FROM CONCIERTO WHERE IDCONCIERTO = @ID;
+GO
      */
     #endregion
 
@@ -81,6 +87,14 @@ namespace ProyectoWebCSNetCore.Repositories
 
             var consulta = this.context.Database.ExecuteSqlRaw
                 (sql, nom, fe, fo, ent, ids, gr);
+        }
+
+        public void EliminarConcierto(int id)
+        {
+            string sql = "SP_ELIMINARCONCIERTO @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
         }
     }
 }

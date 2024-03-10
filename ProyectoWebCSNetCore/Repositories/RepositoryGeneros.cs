@@ -11,6 +11,12 @@ AS
 	SELECT @ID = MAX(IDGENERO)+1 from GENERO
 	INSERT INTO GENERO VALUES(@ID, @NOMBRE)
 GO
+
+CREATE PROCEDURE SP_ELIMINARGENERO
+(@ID INT)
+AS
+	DELETE FROM GENERO WHERE IDGENERO = @ID;
+GO
 */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
@@ -37,6 +43,14 @@ namespace ProyectoWebCSNetCore.Repositories
             SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
 
             this.context.Database.ExecuteSqlRaw(sql, nom);
+        }
+
+        public void EliminarGenero(int id)
+        {
+            string sql = "SP_ELIMINARGENERO @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
         }
     }
 }

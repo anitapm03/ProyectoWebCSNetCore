@@ -78,6 +78,13 @@ namespace ProyectoWebCSNetCore.Repositories
 	    UPDATE USUARIO SET CONTRASENA = @PASW,
 	    SALT = @SALT WHERE IDUSUARIO = @ID
     GO
+
+    CREATE PROCEDURE SP_ELIMINARUSER
+(@ID INT)
+AS
+	DELETE FROM PUBLICACION WHERE IDUSUARIO = @ID;
+	DELETE FROM USUARIO WHERE IDUSUARIO = @ID;
+GO
      */
 
     #endregion
@@ -237,6 +244,14 @@ namespace ProyectoWebCSNetCore.Repositories
 
             var consulta = this.context.Database.ExecuteSqlRaw(sql, pid, ppas, psalt);
 
+        }
+
+        public void EliminarUsuario(int id)
+        {
+            string sql = "SP_ELIMINARUSER @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
         }
     }
 }

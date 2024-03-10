@@ -23,6 +23,12 @@
         {
             <tr>
                 <td>@g.Nombre</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EliminarGenero"
+                       asp-route-id="@g.IdGenero" class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

@@ -15,7 +15,15 @@ AS
 	DECLARE @ID INT
 	SELECT @ID = MAX(IDSALA)+1 FROM SALA
 	INSERT INTO SALA VALUES(@ID, @DIRECCION, @NOMBRE, @PROV)
-GO*/
+GO
+
+ 
+ CREATE PROCEDURE SP_ELIMINARSALA
+(@ID INT)
+AS
+	DELETE FROM SALA WHERE IDSALA = @ID;
+GO
+ */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -48,6 +56,13 @@ namespace ProyectoWebCSNetCore.Repositories
                 (sql, nom, dir, provincia);
         }
 
-        
+        public void EliminarSala(int id)
+        {
+            string sql = "SP_ELIMINARSALA @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
+
+        }
     }
 }

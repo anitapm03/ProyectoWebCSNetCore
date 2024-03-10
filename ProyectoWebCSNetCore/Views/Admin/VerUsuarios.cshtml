@@ -19,8 +19,14 @@
         @foreach (Usuario user in Model)
         {
             <tr>
-                <th>@user.Nombre</th>
-                <th>@user.Email</th>
+                <td>@user.Nombre</td>
+                <td>@user.Email</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EliminarUsuario"
+                       asp-route-id="@user.IdUsuario" class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
     </tbody>

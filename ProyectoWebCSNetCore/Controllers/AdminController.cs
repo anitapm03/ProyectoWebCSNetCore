@@ -60,6 +60,12 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(conciertos);
         }
 
+        public IActionResult EliminarConcierto(int id)
+        {
+            this.repoConciertos.EliminarConcierto(id);
+            return RedirectToAction("VerConciertos");
+        }
+
         public async Task<IActionResult> CrearConciertoAsync()
         {
             List<Sala> salas = this.repoSalas.GetSalas();
@@ -93,6 +99,12 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(salas);
         }
 
+        public IActionResult EliminarSala(int id)
+        {
+            this.repoSalas.EliminarSala(id);
+            return RedirectToAction("VerSalas");
+        }
+
         public IActionResult CrearSala()
         {
             List<Provincia> provincias = this.repoProvincias.GetProvincias();
@@ -111,6 +123,11 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(artistas);
         }
 
+        public IActionResult EliminarArtista(int id)
+        {
+            this.repoArtistas.EliminarArtista(id);
+            return RedirectToAction("VerArtistas");
+        }
         public async Task<IActionResult> CrearArtista()
         {
             return View();
@@ -140,7 +157,11 @@ namespace ProyectoWebCSNetCore.Controllers
             List<Genero> generos = this.repoGeneros.GetGeneros();
             return View(generos);
         }
-        
+        public IActionResult EliminarGenero(int id)
+        {
+            this.repoGeneros.EliminarGenero(id);
+            return RedirectToAction("VerGeneros");
+        }
         public IActionResult CrearGenero()
         {
             return View();
@@ -158,12 +179,22 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(users);
         }
 
+        public IActionResult EliminarUsuario(int id)
+        {
+            this.repoSesion.EliminarUsuario(id);
+            return RedirectToAction("VerUsuarios");
+        }
+
         public IActionResult VerPublicaciones()
         {
             List<UserPubli> userPublis = this.repoPublicaciones.GetPublicaciones();
             return View(userPublis);
         }
 
-        
+        public IActionResult EliminarPubli(int id)
+        {
+            this.repoPublicaciones.EliminarPubli(id);
+            return RedirectToAction("VerPublicaciones");
+        }
     }
 }

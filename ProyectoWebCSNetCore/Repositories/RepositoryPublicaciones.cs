@@ -16,7 +16,14 @@ namespace ProyectoWebCSNetCore.Repositories
 	    SELECT @ID = MAX(IDPUBLICACION)+1 FROM PUBLICACION
 	    INSERT INTO PUBLICACION VALUES(@ID,@USER, @TEXTO, 
 	    @IMAGEN, @FECHA)
-    GO*/
+    GO
+    
+    CREATE PROCEDURE SP_ELIMINARPUBLI
+(@ID INT)
+AS
+	DELETE FROM PUBLICACION WHERE IDPUBLICACION = @ID;
+GO
+     */
     #endregion
     public class RepositoryPublicaciones
     {
@@ -47,6 +54,15 @@ namespace ProyectoWebCSNetCore.Repositories
             SqlParameter fe = new SqlParameter("@FECHA", fecha);
 
             this.context.Database.ExecuteSqlRaw(sql, user,txt, img, fe);
+        }
+
+        public void EliminarPubli(int id)
+        {
+            string sql = "SP_ELIMINARPUBLI @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
+
         }
     }
 }

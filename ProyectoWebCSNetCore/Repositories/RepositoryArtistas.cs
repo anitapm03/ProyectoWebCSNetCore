@@ -16,6 +16,13 @@ AS
 	INSERT INTO ARTISTA VALUES(@ID, @NOMBRE, @IMAGEN,
 	@SPOTIFY, @DESCRIPCION)
 GO
+
+
+CREATE PROCEDURE SP_ELIMINARARTISTA
+(@ID INT)
+AS
+	DELETE FROM ARTISTA WHERE IDARTISTA = @ID;
+GO
  */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
@@ -57,5 +64,14 @@ namespace ProyectoWebCSNetCore.Repositories
 
             this.context.Database.ExecuteSqlRaw(sql, nom, img, spt, desc);
         }
+
+        public void EliminarArtista(int id)
+        {
+            string sql = "SP_ELIMINARARTISTA @ID";
+            SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
+        }
+
     }
 }

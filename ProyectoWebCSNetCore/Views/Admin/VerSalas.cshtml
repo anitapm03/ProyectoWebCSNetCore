@@ -23,10 +23,16 @@
         @foreach (Sala s in Model)
         {
             <tr>
-                <th>@s.Nombre</th>
-                <th>@s.Direccion</th>
-                <th>@s.IdProvincia</th>
-                
+                <td>@s.Nombre</td>
+                <td>@s.Direccion</td>
+                <td>@s.IdProvincia</td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EliminarSala"
+                       asp-route-id="@s.IdSala" class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
+
             </tr>
         }
     </tbody>

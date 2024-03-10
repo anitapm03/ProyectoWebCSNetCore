@@ -28,6 +28,12 @@
                     <img src="~/images/publicaciones/@publi.Imagen"
                          style="width: 50px; height: 50px" />
                 </td>
+                <td>
+                    <a asp-controller="Admin" asp-action="EliminarPubli"
+                       asp-route-id="@publi.IdPubli" class="btn btn-danger">
+                        Eliminar
+                    </a>
+                </td>
             </tr>
         }
     </tbody>
