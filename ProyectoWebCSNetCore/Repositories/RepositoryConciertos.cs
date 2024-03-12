@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoWebCSNetCore.Data;
 using ProyectoWebCSNetCore.Models;
 using System.Diagnostics.Metrics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.RegularExpressions;
 
 namespace ProyectoWebCSNetCore.Repositories
 {
@@ -45,6 +47,36 @@ CREATE PROCEDURE SP_ELIMINARCONCIERTO
 AS
 	DELETE FROM CONCIERTO WHERE IDCONCIERTO = @ID;
 GO
+
+alter PROCEDURE SP_UPDATE_CONCIERTO
+(@ID INT,
+@NOMBRE NVARCHAR(50),
+@FECHA DATETIME,
+@ENTRADAS NVARCHAR(200),
+@IDSALA INT,
+@GRUPO NVARCHAR(200))
+AS
+	UPDATE CONCIERTO SET NOMBRE = @NOMBRE,
+	FECHA = @FECHA, ENTRADAS = @ENTRADAS,
+	IDSALA = @IDSALA, GRUPO = @GRUPO
+	where IDCONCIERTO = @ID
+GO
+
+alter PROCEDURE SP_UPDATE_CONCIERTO_FOTO
+(@ID INT,
+@NOMBRE NVARCHAR(50),
+@FECHA DATETIME,
+@IMAGEN NVARCHAR(200),
+@ENTRADAS NVARCHAR(200),
+@IDSALA INT,
+@GRUPO NVARCHAR(200))
+AS
+	UPDATE CONCIERTO SET NOMBRE = @NOMBRE,
+	FECHA = @FECHA, IMAGEN = @IMAGEN,
+	ENTRADAS = @ENTRADAS,
+	IDSALA = @IDSALA, GRUPO = @GRUPO
+	where IDCONCIERTO = @ID
+GO
      */
     #endregion
 
@@ -72,6 +104,14 @@ GO
             return consulta.FirstOrDefault();
         }
 
+        public Concierto FindConcierto(int id)
+        {
+            var consulta = from datos in this.context.Conciertos
+                           where datos.IdConcierto == id
+                           select datos;
+            return consulta.FirstOrDefault();
+        }
+
         public void InsertarConcierto(string nombre, DateTime fecha, string foto,
             string entradas, int sala, string grupo)
         {
@@ -87,6 +127,43 @@ GO
 
             var consulta = this.context.Database.ExecuteSqlRaw
                 (sql, nom, fe, fo, ent, ids, gr);
+        }
+
+        public void EditarConcierto
+            (int id, string nombre, DateTime fecha,
+            string entradas, int sala, string grupo)
+        {
+            string sql = "SP_UPDATE_CONCIERTO @ID, @NOMBRE, @FECHA, " +
+                " @ENTRADAS, @IDSALA, @GRUPO";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter fe = new SqlParameter("@FECHA", fecha);
+            SqlParameter ent = new SqlParameter("@ENTRADAS", entradas);
+            SqlParameter ids = new SqlParameter("@IDSALA", sala);
+            SqlParameter gr = new SqlParameter("@GRUPO", grupo);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, pid, nom, fe, ent, ids, gr);
+        }
+
+        public void EditarConciertoFoto
+            (int id, string nombre, DateTime fecha, string foto,
+            string entradas, int sala, string grupo)
+        {
+            string sql = "SP_UPDATE_CONCIERTO_FOTO @ID, @NOMBRE, @FECHA, " +
+            " @FOTO, @ENTRADAS, @IDSALA, @GRUPO";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter fe = new SqlParameter("@FECHA", fecha);
+            SqlParameter fo = new SqlParameter("@FOTO", foto);
+            SqlParameter ent = new SqlParameter("@ENTRADAS", entradas);
+            SqlParameter ids = new SqlParameter("@IDSALA", sala);
+            SqlParameter gr = new SqlParameter("@GRUPO", grupo);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, pid, nom, fe, fo, ent, ids, gr);
         }
 
         public void EliminarConcierto(int id)

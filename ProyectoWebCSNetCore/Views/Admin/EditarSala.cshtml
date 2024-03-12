@@ -1,0 +1,30 @@
+﻿@model ModelEditSala
+
+<h1>Editar sala</h1>
+
+<form method="post">
+    <input type="hidden" value="@Model.sala.IdSala" />
+    <input type="text" name="nombre" value="@Model.sala.Nombre" class="form-control" />
+    <br />
+    <input type="text" name="direccion" value="@Model.sala.Direccion" class="form-control" />
+    <br />
+    <select name="prov" class="form-control">
+        @foreach (Provincia p in Model.provinciaList)
+        {
+            @if (p.IdProvincia == Model.sala.IdProvincia)
+            {
+                <option value="@p.IdProvincia" selected>
+                    @p.Nombre
+                </option>
+            }
+            else
+            {
+                <option value="@p.IdProvincia">
+                    @p.Nombre
+                </option>
+            }
+        }
+    </select>
+    <br />
+    <button class="btn btn-success">Guardar!</button>
+</form>

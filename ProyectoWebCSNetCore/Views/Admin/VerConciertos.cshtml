@@ -33,6 +33,10 @@
                        asp-route-id="@e.IdConcierto" class="btn btn-danger">
                         Eliminar
                     </a>
+                    <a asp-controller="Admin" asp-action="EditarConcierto"
+                       asp-route-id="@e.IdConcierto" class="btn btn-info">
+                        Editar
+                    </a>
                 </td>
             </tr>
         }

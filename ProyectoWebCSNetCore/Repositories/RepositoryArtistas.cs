@@ -23,6 +23,31 @@ CREATE PROCEDURE SP_ELIMINARARTISTA
 AS
 	DELETE FROM ARTISTA WHERE IDARTISTA = @ID;
 GO
+
+CREATE PROCEDURE SP_UPDATE_ARTISTA
+(@ID INT,
+@NOMBRE NVARCHAR(30),
+@SPOTIFY NVARCHAR(200),
+@DESCRIPCION NVARCHAR(500))
+AS
+	UPDATE ARTISTA SET NOMBRE = @NOMBRE,
+	SPOTIFY = @SPOTIFY, DESCRIPCION	= @DESCRIPCION
+	WHERE IDARTISTA = @ID 
+GO
+
+
+CREATE PROCEDURE SP_UPDATE_ARTISTA_FOTO
+(@ID INT,
+@NOMBRE NVARCHAR(30),
+@IMAGEN NVARCHAR(200),
+@SPOTIFY NVARCHAR(200),
+@DESCRIPCION NVARCHAR(500))
+AS
+	UPDATE ARTISTA SET NOMBRE = @NOMBRE,
+	IMAGEN = @IMAGEN,
+	SPOTIFY = @SPOTIFY, DESCRIPCION	= @DESCRIPCION
+	WHERE IDARTISTA = @ID 
+GO
  */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
@@ -73,5 +98,38 @@ namespace ProyectoWebCSNetCore.Repositories
             this.context.Database.ExecuteSqlRaw(sql, pid);
         }
 
+        public void EditarArtista
+            (int id, string nombre, 
+             string spotify, string descripcion)
+        {
+
+            string sql = "SP_UPDATE_ARTISTA @ID, @NOMBRE, @SPOTIFY, " +
+                " @DESCRIPCION";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter sp = new SqlParameter("@SPOTIFY", spotify);
+            SqlParameter desc = new SqlParameter("@DESCRIPCION", descripcion);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, pid, nom, sp, desc);
+        }
+
+        public void EditarArtistaFoto
+            (int id, string nombre, string imagen,
+             string spotify, string descripcion)
+        {
+            string sql = "SP_UPDATE_ARTISTA_FOTO @ID, @NOMBRE, @IMAGEN," +
+                " @SPOTIFY, @DESCRIPCION";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter img = new SqlParameter("@IMAGEN", imagen);
+            SqlParameter sp = new SqlParameter("@SPOTIFY", spotify);
+            SqlParameter desc = new SqlParameter("@DESCRIPCION", descripcion);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, pid, nom, img, sp, desc);
+        }
     }
 }

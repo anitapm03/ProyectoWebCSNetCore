@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProyectoWebCSNetCore.Models;
 using ProyectoWebCSNetCore.Repositories;
+using System.Runtime.Serialization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ProyectoWebCSNetCore.Controllers
 {
@@ -66,6 +68,46 @@ namespace ProyectoWebCSNetCore.Controllers
             return RedirectToAction("VerConciertos");
         }
 
+        public IActionResult EditarConcierto(int id)
+        {
+            Concierto concierto = this.repoConciertos.FindConcierto(id);
+            List<Sala> salas = this.repoSalas.GetSalas();
+            ModelEditConcierto model = new ModelEditConcierto();
+            model.Concierto = concierto;
+            model.Salas = salas;
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditarConcierto
+            (int id, string nombre, DateTime fecha, IFormFile foto, 
+             string entradas, int sala, string grupo)
+        {
+            if (foto != null)
+            {
+                string rootFolder =
+                this.hostEnvironment.WebRootPath;
+                string fileName = foto.FileName;
+
+                string path = Path.Combine(rootFolder, "images", "eventos", fileName);
+
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await foto.CopyToAsync(stream);
+                }
+
+                this.repoConciertos.EditarConciertoFoto
+                    (id, nombre, fecha, fileName, entradas, sala, grupo);
+                return RedirectToAction("VerConciertos");
+            }
+            else
+            {
+                this.repoConciertos.EditarConcierto
+                    (id, nombre, fecha, entradas, sala, grupo);
+                return RedirectToAction("VerConciertos");
+            }
+            
+        }
+
         public async Task<IActionResult> CrearConciertoAsync()
         {
             List<Sala> salas = this.repoSalas.GetSalas();
@@ -105,6 +147,26 @@ namespace ProyectoWebCSNetCore.Controllers
             return RedirectToAction("VerSalas");
         }
 
+        public IActionResult EditarSala(int id)
+        {
+            Sala sala = this.repoSalas.FindSala(id);
+            List<Provincia> provincias = 
+                this.repoProvincias.GetProvincias();
+            ModelEditSala model = new ModelEditSala
+            {
+                provinciaList = provincias,
+                sala = sala
+            };
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult EditarSala(int id, string nombre,
+            string direccion, int prov)
+        {
+            this.repoSalas.EditarSala( id, nombre, direccion, prov);
+            return RedirectToAction("VerSalas");
+        }
+
         public IActionResult CrearSala()
         {
             List<Provincia> provincias = this.repoProvincias.GetProvincias();
@@ -128,6 +190,44 @@ namespace ProyectoWebCSNetCore.Controllers
             this.repoArtistas.EliminarArtista(id);
             return RedirectToAction("VerArtistas");
         }
+
+        public IActionResult EditarArtista(int id)
+        {
+            Artista artista = this.repoArtistas.FindArtista(id);
+            return View(artista);
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditarArtista
+            (int id, string nombre, IFormFile foto,
+             string spotify, string descripcion)
+        {
+            if (foto != null)
+            {
+                string rootFolder =
+                this.hostEnvironment.WebRootPath;
+                string fileName = foto.FileName;
+
+                string path = Path.Combine(rootFolder, "images", "artistas", fileName);
+
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    await foto.CopyToAsync(stream);
+                }
+
+                this.repoArtistas.EditarArtistaFoto
+                    (id, nombre, fileName, spotify, descripcion);
+                return RedirectToAction("VerArtistas");
+            }
+            else
+            {
+                this.repoArtistas.EditarArtista
+                    (id, nombre, spotify, descripcion);
+                return RedirectToAction("VerArtistas");
+            }
+
+        }
+
+
         public async Task<IActionResult> CrearArtista()
         {
             return View();

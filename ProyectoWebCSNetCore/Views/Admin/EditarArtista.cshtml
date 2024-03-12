@@ -1,0 +1,18 @@
+﻿@model Artista
+
+
+<h1>Editar artista:</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" value="@Model.IdArtista" />
+    <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
+    <br />
+    <label>Imagen del artista:</label>
+    <input type="file" name="foto" class="form-control" />
+    <br />
+    <input type="text" name="spotify" value="@Model.Spotify" class="form-control" />
+    <br />
+    <textarea rows="3" name="descripcion" class="form-control">@Model.Descripcion </textarea>
+    <br />
+    <button class="btn btn-success">Guardar!</button>
+</form>

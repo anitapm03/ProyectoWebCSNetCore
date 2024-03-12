@@ -31,3 +31,124 @@
     </div>
 }
 
+@*--------------------------------------------------------------------------------------------*@
+
+<section class="reviews-container pt-3">
+    <h1 class="py-5 text-uppercase text-center" style="color:#0000004d"> - what they say -</h1>
+    <div class="swiper-container">
+        @if (idsfavoritos != null)
+        {
+            <h1 class="text-info">@ViewData["mensaje"]</h1>
+        }
+
+        <div class="comments-container" id="carousel-comments">
+            @foreach (Evento ev in Model)
+            {
+
+                <div class="swiper-slide">
+                    <div class="review-card">
+                        <div class="review-card-box">
+                            <div class="review-card-header">
+                                <spn class="left-header">
+                                    <span class="face">
+                                        <form method="get" asp-controller="Home" asp-action="Index">
+                                            <input type="button" name="idfavoritos" value="@post.IdArticulo" hidden />
+                                            <span class="fa-regular fa-heart fav-btn"></span>
+                                        </form>
+                                    </span>
+                                </spn>
+                                <span class="right-header author">
+                                    @post.Autor
+                                </span>
+                            </div>
+                            <div class="review-card-post-img">
+                                <img src="~/images/@post.Imagen"
+                                     class="img-fluid"
+                                     alt="Islas Canarias" />
+                            </div>
+                            <div class="review-card-content">
+                                <div class="box-descripcion">
+                                    <div class="box-text">
+                                        <h3 class="title">@post.Titulo</h3>
+                                        <p class="subtitle">
+                                            @post.Contenido
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="box-footer">
+                                    <span class="left-footer">
+                                        <span class="fas fa-plane">
+                                            &nbsp;
+                                        </span>
+                                        <a asp-controller="Destinos" asp-action="Details" asp-route-iddestino="@post.IdDestino">
+                                            @post.Pais - @post.Ciudad
+                                        </a>
+                                    </span>
+                                    <span class="right-footer">
+                                        <span class="fas fa-calendar">&nbsp; </span>
+                                        @post.FechaPublicacion.ToShortDateString()
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="direction-controller">
+            <div class="next-btn">
+                <span class="fas fa-chevron-right"></span>
+            </div>
+            <div class="prev-btn">
+                <span class="fas fa-chevron-left"></span>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script>
+/************ JS ***************/
+
+    // carousel comentarios post / blog
+    const commentsCarousel = document.querySelector(".comments-container");
+    const nextBtn = document.querySelector(".next-btn");
+    const prevBtn = document.querySelector(".prev-btn");
+
+    const carouselItems = document.querySelectorAll(".swiper-slide");
+    let currentIndex = 0;
+    const itemWidth = carouselItems[0].offsetWidth - parseInt(getComputedStyle(carouselItems[0]).marginRight);
+    const totalItems = carouselItems.length;
+
+    //-- next
+    nextBtn.addEventListener("click", function () {
+
+        currentIndex = (currentIndex + 1) % totalItems;
+        //currentIndex++;
+
+        console.log(carouselItems[currentIndex]);
+
+        commentsCarousel.style.transform = `translate3d(${-currentIndex * itemWidth}px,0px,0px)`;
+        commentsCarousel.style.transitionDuration = '300ms';
+
+        carouselItems[currentIndex].style.Width = '331.5px';
+        carouselItems[currentIndex].style.marginRight = '61px';
+    });
+
+    //-- previous
+    prevBtn.addEventListener("click", function () {
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        //currentIndex--;
+
+        console.log(carouselItems[currentIndex]);
+
+        commentsCarousel.style.transform = `translate3d(${-currentIndex * itemWidth}px,0px,0px)`;
+        commentsCarousel.style.transitionDuration = '300ms';
+
+        carouselItems[currentIndex].style.Width = '331.5px';
+        carouselItems[currentIndex].style.marginRight = '61px';
+    });
+
+</script>

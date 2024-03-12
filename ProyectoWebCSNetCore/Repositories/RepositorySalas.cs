@@ -23,6 +23,18 @@ GO
 AS
 	DELETE FROM SALA WHERE IDSALA = @ID;
 GO
+
+
+CREATE PROCEDURE SP_UPDATE_SALA
+(@ID INT,
+@NOMBRE NVARCHAR(50),
+@DIRECCION NVARCHAR(100),
+@PROV INT)
+AS
+	UPDATE SALA SET NOMBRE = @NOMBRE,
+	DIRECCION = @DIRECCION, IDPROVINCIA = @PROV
+	WHERE IDSALA = @ID
+GO
  */
 #endregion
 namespace ProyectoWebCSNetCore.Repositories
@@ -44,6 +56,14 @@ namespace ProyectoWebCSNetCore.Repositories
             return consulta.ToList();
         }
 
+        public Sala FindSala(int id)
+        {
+            var consulta = from datos in this.context.Salas
+                           where datos.IdSala == id
+                           select datos;
+            return consulta.FirstOrDefault();
+        }
+
         public void CrearSala(string direccion, string nombre, int prov)
         {
             string sql = "SP_INSERT_SALA @DIRECCION, @NOMBRE, @PROV";
@@ -63,6 +83,20 @@ namespace ProyectoWebCSNetCore.Repositories
 
             this.context.Database.ExecuteSqlRaw(sql, pid);
 
+        }
+
+        public void EditarSala(int id, string nombre, 
+            string direccion, int prov)
+        {
+            string sql = "SP_UPDATE_SALA  @ID, @NOMBRE, @DIRECCION, @PROV";
+
+            SqlParameter pid = new SqlParameter("@ID", id);
+            SqlParameter nom = new SqlParameter("@NOMBRE", nombre);
+            SqlParameter dir = new SqlParameter("@DIRECCION", direccion);
+            SqlParameter provincia = new SqlParameter("@PROV", prov);
+
+            var consulta = this.context.Database.ExecuteSqlRaw
+                (sql, pid, nom, dir, provincia);
         }
     }
 }

@@ -1,0 +1,37 @@
+﻿@model ModelEditConcierto
+
+<h1>Editar concierto</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" name="id" value="@Model.Concierto.IdConcierto"/>
+    <input type="text" name="nombre" value="@Model.Concierto.Nombre" class="form-control" />
+    <br />
+    <input type="date" name="fecha" value="@Model.Concierto.Fecha.ToString("yyyy-MM-dd")" class="form-control" />
+    <br />
+    <label>Imagen:</label>
+    <input type="file" name="foto" class="form-control" />
+    <br />
+    <input type="text" name="entradas" value="@Model.Concierto.Entradas" class="form-control" />
+    <br />
+    <select name="sala" class="form-control">
+        @foreach (Sala s in Model.Salas)
+        {
+            @if (s.IdSala == Model.Concierto.IdSala)
+            {
+                <option value="@s.IdSala" selected>
+                    @s.Nombre
+                </option>
+            }
+            else
+            {
+                <option value="@s.IdSala">
+                    @s.Nombre
+                </option>
+            }
+        }
+    </select>
+    <br />
+    <input type="text" name="grupo" value="@Model.Concierto.Grupo" class="form-control" />
+    <br />
+    <button class="btn btn-success">Guardar!</button>
+</form>
