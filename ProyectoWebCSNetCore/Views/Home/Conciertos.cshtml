@@ -1,6 +1,7 @@
 ﻿@model List<Evento>
 
     @{
+        Layout = "~/Views/Shared/_Layout.cshtml";
         List<Evento> favoritos = memoryCache.Get<List<Evento>>("FAV");
 
     }
@@ -23,162 +24,70 @@
 
 @if(favoritos != null)
 {
-    <div name="ListaFavs">
-        <h3>Favoritos: </h3>
-
+    <h1>Favoritos:</h1>
+    <div id="carouselfavoritos" class="carousel">
+    <div class="carousel-inner">
         @foreach (Evento e in favoritos)
         {
-
-            <div class="card" style="width: 15rem; float: left; margin-right: 15px;">
-                <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">@e.Nombre</h5>
-                    <p>@e.Fecha</p>
-                    <a asp-controller="Home" asp-action="DetallesConcierto"
-                       asp-route-idevento="@e.IdConcierto"
-                       class="btn btn-primary">Ver detalles!</a>
-                </div>
-            </div>
-        }
-    </div>
-}
-
-<div class="container">
-    @foreach (Evento e in Model)
-    {
-
-        <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
-            <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@e.Nombre</h5>
-                <p>@e.Fecha</p>
-                <a asp-controller="Home" asp-action="DetallesConcierto"
-                   asp-route-idevento="@e.IdConcierto"
-                   class="btn btn-primary">Ver detalles!</a>
-            </div>
-        </div>
-    }
-</div>
-
-
-@*--------------------------------------------------------------------------------------------
-
-<section class="reviews-container pt-3">
-    <h1 class="py-5 text-uppercase text-center" style="color:#0000004d"> - what they say -</h1>
-    <div class="swiper-container">
-        @if (idsfavoritos != null)
-        {
-            <h1 class="text-info">@ViewData["mensaje"]</h1>
-        }
-
-        <div class="comments-container" id="carousel-comments">
-            @foreach (Evento ev in Model)
-            {
-
-                <div class="swiper-slide">
-                    <div class="review-card">
-                        <div class="review-card-box">
-                            <div class="review-card-header">
-                                <spn class="left-header">
-                                    <span class="face">
-                                        <form method="get" asp-controller="Home" asp-action="Index">
-                                            <input type="button" name="idfavoritos" value="@post.IdArticulo" hidden />
-                                            <span class="fa-regular fa-heart fav-btn"></span>
-                                        </form>
-                                    </span>
-                                </spn>
-                                <span class="right-header author">
-                                    @post.Autor
-                                </span>
-                            </div>
-                            <div class="review-card-post-img">
-                                <img src="~/images/@post.Imagen"
-                                     class="img-fluid"
-                                     alt="Islas Canarias" />
-                            </div>
-                            <div class="review-card-content">
-                                <div class="box-descripcion">
-                                    <div class="box-text">
-                                        <h3 class="title">@post.Titulo</h3>
-                                        <p class="subtitle">
-                                            @post.Contenido
-                                        </p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="box-footer">
-                                    <span class="left-footer">
-                                        <span class="fas fa-plane">
-                                            &nbsp;
-                                        </span>
-                                        <a asp-controller="Destinos" asp-action="Details" asp-route-iddestino="@post.IdDestino">
-                                            @post.Pais - @post.Ciudad
-                                        </a>
-                                    </span>
-                                    <span class="right-footer">
-                                        <span class="fas fa-calendar">&nbsp; </span>
-                                        @post.FechaPublicacion.ToShortDateString()
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
+            <div class="carousel-item">
+                <div class="card">
+                    <div class="img-wrapper">
+                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">@e.Nombre</h3>
+                        <p class="card-text">
+                            @e.Fecha
+                        </p>
+                        <a asp-controller="Home" asp-action="DetallesConcierto"
+                           asp-route-idevento="@e.IdConcierto"
+                           class="btn btn-primary">Ver detalles!</a>
                     </div>
                 </div>
-            }
-        </div>
-        <div class="direction-controller">
-            <div class="next-btn">
-                <span class="fas fa-chevron-right"></span>
             </div>
-            <div class="prev-btn">
-                <span class="fas fa-chevron-left"></span>
-            </div>
-        </div>
+        }
     </div>
-</section>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+}
 
-*@
 
-<script>
-/************ JS ***************/
+<div id="carouselExampleControls" class="carousel">
+    <div class="carousel-inner">
+        @foreach (Evento e in Model)
+        {
+            <div class="carousel-item">
+                <div class="card">
+                    <div class="img-wrapper">
+                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">@e.Nombre</h3>
+                        <p class="card-text">
+                            @e.Fecha
+                        </p>
+                        <a asp-controller="Home" asp-action="DetallesConcierto"
+                           asp-route-idevento="@e.IdConcierto"
+                           class="btn btn-primary">Ver detalles!</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
 
-    // carousel comentarios post / blog
-    const commentsCarousel = document.querySelector(".comments-container");
-    const nextBtn = document.querySelector(".next-btn");
-    const prevBtn = document.querySelector(".prev-btn");
-
-    const carouselItems = document.querySelectorAll(".swiper-slide");
-    let currentIndex = 0;
-    const itemWidth = carouselItems[0].offsetWidth - parseInt(getComputedStyle(carouselItems[0]).marginRight);
-    const totalItems = carouselItems.length;
-
-    //-- next
-    nextBtn.addEventListener("click", function () {
-
-        currentIndex = (currentIndex + 1) % totalItems;
-        //currentIndex++;
-
-        console.log(carouselItems[currentIndex]);
-
-        commentsCarousel.style.transform = `translate3d(${-currentIndex * itemWidth}px,0px,0px)`;
-        commentsCarousel.style.transitionDuration = '300ms';
-
-        carouselItems[currentIndex].style.Width = '331.5px';
-        carouselItems[currentIndex].style.marginRight = '61px';
-    });
-
-    //-- previous
-    prevBtn.addEventListener("click", function () {
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        //currentIndex--;
-
-        console.log(carouselItems[currentIndex]);
-
-        commentsCarousel.style.transform = `translate3d(${-currentIndex * itemWidth}px,0px,0px)`;
-        commentsCarousel.style.transitionDuration = '300ms';
-
-        carouselItems[currentIndex].style.Width = '331.5px';
-        carouselItems[currentIndex].style.marginRight = '61px';
-    });
-
-</script>
