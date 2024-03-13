@@ -8,8 +8,7 @@ namespace ProyectoWebCSNetCore.Models
     public class Evento
     {
         [Key]
-        [Column("ID")]
-        public Int64 Id { get; set; }
+        
         [Column("IDCONCIERTO")]
         public int IdConcierto { get; set; }
         [Column("NOMBRE")]
@@ -20,6 +19,8 @@ namespace ProyectoWebCSNetCore.Models
         public string Imagen { get; set; }
         [Column("ENTRADAS")]
         public string Entradas { get; set; }
+        [Column("GRUPO")]
+        public string Grupo { get; set; }
         [Column("DIRECCION")]
         public string Direccion { get; set; }
         [Column("NOMBRESALA")]

@@ -12,11 +12,12 @@ namespace ProyectoWebCSNetCore.Repositories
     #region PROCEDIMIENTOS
     //recupera la información de un evento completo
     //concierto/sala/provincia
-    /*CREATE VIEW V_EVENTOS
+    /*ALTER VIEW V_EVENTOS
     AS
 
         SELECT C.IDCONCIERTO, C.NOMBRE, C.FECHA, C.IMAGEN, C.ENTRADAS,
-        S.DIRECCION, S.NOMBRE AS NOMBRESALA, P.NOMBRE AS NOMBREPROVNCIA
+        C.GRUPO, S.DIRECCION, S.NOMBRE AS NOMBRESALA, 
+		P.NOMBRE AS NOMBREPROVNCIA
         FROM CONCIERTO C
 
        INNER JOIN SALA S

@@ -1,72 +1,29 @@
 ﻿@model ProyectoWebCSNetCore.Models.Evento
 
-@{
-    ViewData["Title"] = "Detalles";
-}
+<div style="display: flex;">
 
-<h1>Detalles</h1>
+    <div style="padding: 10px; margin: 10px;">
+        <img src="~/images/eventos/@Model.Imagen" style="width: 300px; height: 300px" />
 
-<div>
-    <h4>Evento</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Id)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Id)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdConcierto)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdConcierto)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fecha)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fecha)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Imagen)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Imagen)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Entradas)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Entradas)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Direccion)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Direccion)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NombreSala)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NombreSala)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Provincia)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Provincia)
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    </div>
+
+    <div style="width: 50%; padding: 10px; margin: 10px;">
+
+        <h1>@Model.Nombre</h1>
+
+        <h2> @Model.Fecha.Date</h2>
+
+        <h3> @Model.NombreSala / @Model.Direccion / @Model.Provincia</h3>
+        <a href="@Model.Entradas" class="btn btn-dark">Entradas</a>
+        <a href="@Model.Grupo" class="btn btn-success">Grupo de Whatsapp</a>
+
+        @if (Context.Session.GetString("USUARIO") != null)
+        {
+            <a asp-controller="Home"
+               asp-action="DetallesConcierto"
+               asp-route-idfav="@Model.IdConcierto"
+               class="btn btn-danger">Favorito</a>
+        }
+    </div>
+
 </div>

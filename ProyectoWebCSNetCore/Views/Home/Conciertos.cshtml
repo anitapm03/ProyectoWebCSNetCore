@@ -1,5 +1,10 @@
 ﻿@model List<Evento>
 
+    @{
+        List<Evento> favoritos = memoryCache.Get<List<Evento>>("FAV");
+
+    }
+
 <div style="display: flex;">
     <div style="text-align: left;">
 
@@ -16,22 +21,47 @@
     </div>
 </div>
 
-@foreach (Evento e in Model)
+@if(favoritos != null)
 {
+    <div name="ListaFavs">
+        <h3>Favoritos: </h3>
 
-    <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
-        <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">@e.Nombre</h5>
-            <p>@e.Fecha</p>
-            <a asp-controller="Home" asp-action="DetallesConcierto"
-            asp-route-idevento="@e.IdConcierto"
-            class="btn btn-primary">Ver detalles!</a>
-        </div>
+        @foreach (Evento e in favoritos)
+        {
+
+            <div class="card" style="width: 15rem; float: left; margin-right: 15px;">
+                <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@e.Nombre</h5>
+                    <p>@e.Fecha</p>
+                    <a asp-controller="Home" asp-action="DetallesConcierto"
+                       asp-route-idevento="@e.IdConcierto"
+                       class="btn btn-primary">Ver detalles!</a>
+                </div>
+            </div>
+        }
     </div>
 }
 
-@*--------------------------------------------------------------------------------------------*@
+<div class="container">
+    @foreach (Evento e in Model)
+    {
+
+        <div class="card" style="width: 18rem; float: left; margin-right: 15px;">
+            <img class="card-img-top" src="~/images/eventos/@e.Imagen" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">@e.Nombre</h5>
+                <p>@e.Fecha</p>
+                <a asp-controller="Home" asp-action="DetallesConcierto"
+                   asp-route-idevento="@e.IdConcierto"
+                   class="btn btn-primary">Ver detalles!</a>
+            </div>
+        </div>
+    }
+</div>
+
+
+@*--------------------------------------------------------------------------------------------
 
 <section class="reviews-container pt-3">
     <h1 class="py-5 text-uppercase text-center" style="color:#0000004d"> - what they say -</h1>
@@ -107,7 +137,7 @@
     </div>
 </section>
 
-
+*@
 
 <script>
 /************ JS ***************/

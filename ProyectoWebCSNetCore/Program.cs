@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddTransient<HelperMails>();
 builder.Services.AddTransient<HelperPathProvider>();
 builder.Services.AddSession();

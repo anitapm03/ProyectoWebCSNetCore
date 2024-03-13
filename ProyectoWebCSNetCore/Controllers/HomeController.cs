@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using ProyectoWebCSNetCore.Models;
 using ProyectoWebCSNetCore.Repositories;
 using System.Diagnostics;
@@ -11,16 +12,19 @@ namespace ProyectoWebCSNetCore.Controllers
         private RepositoryConciertos repoConciertos;
         private RepositoryArtistas repoArtistas;
         private RepositoryPublicaciones repoPublicaciones;
+        private IMemoryCache memoryCache;
 
         public HomeController(ILogger<HomeController> logger,
             RepositoryConciertos repoConciertos,
             RepositoryArtistas repoArtistas,
-            RepositoryPublicaciones repoPublicaciones)
+            RepositoryPublicaciones repoPublicaciones,
+            IMemoryCache memoryCache)
         {
             _logger = logger;
             this.repoConciertos =  repoConciertos;
             this.repoArtistas = repoArtistas;
             this.repoPublicaciones = repoPublicaciones;
+            this.memoryCache = memoryCache;
         }
 
         public IActionResult Index()
@@ -40,14 +44,46 @@ namespace ProyectoWebCSNetCore.Controllers
 
         public IActionResult Conciertos()
         {
+            if(this.memoryCache.Get("FAV") != null)
+            {
+                List<Evento> favoritos =
+                    this.memoryCache.Get<List<Evento>>("FAV");
+                ViewData["FAVORITOS"] = favoritos;
+            }
+
             List<Evento> eventos = this.repoConciertos.GetEventos();
             return View(eventos);
         }
 
-        public IActionResult DetallesConcierto(int idevento)
+
+        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client)]
+        public IActionResult DetallesConcierto(int idevento, int? idfav)
         {
-            Evento evento = this.repoConciertos.FindEvento(idevento);
-            return View(evento);
+            
+
+            if (idfav != null)
+            {
+                List<Evento> eventosFav;
+                if(this.memoryCache.Get("FAV") == null)
+                {
+                    eventosFav = new List<Evento>();
+                }
+                else
+                {
+                    eventosFav = this.memoryCache.Get<List<Evento>>("FAV");
+                }
+                Evento evento = this.repoConciertos.FindEvento(idfav.Value);
+                eventosFav.Add(evento);
+
+                this.memoryCache.Set("FAV", eventosFav);
+                return View(evento);
+            }
+            else
+            {
+                Evento evento = this.repoConciertos.FindEvento(idevento);
+                return View(evento);
+            }
+
         }
 
         public IActionResult Artistas()
