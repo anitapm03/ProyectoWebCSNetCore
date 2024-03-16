@@ -5,22 +5,25 @@
         List<Evento> favoritos = memoryCache.Get<List<Evento>>("FAV");
 
     }
+@section Styles {
+    <link rel="stylesheet" href="~/css/cards.css" asp-append-version="true" />
+}
 
-<div style="display: flex;">
+<div style="display: flex; justify-content: space-between;">
     <div style="text-align: left;">
-
         <h1>Lista de eventos</h1>
-        
     </div>
     <div style="text-align: right;">
-        <p>¿No tenemos el Concierto que buscas?<br/>
-            Rellena este 
+        <p>
+            ¿No tenemos el Concierto que buscas?<br />
+            Rellena este
             <a asp-controller="Acciones" asp-action="SolicitarConcierto" class="btn btn-outline-dark">
                 formulario
             </a>
         </p>
     </div>
 </div>
+
 
 @if(favoritos != null)
 {
@@ -66,10 +69,10 @@
             <div class="carousel-item">
                 <div class="card">
                     <div class="img-wrapper">
-                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
+                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100 " alt="@e.Nombre">
                     </div>
                     <div class="card-body">
-                        <h3 class="card-title">@e.Nombre</h3>
+                        <h5>@e.Nombre</h5>
                         <p class="card-text">
                             @e.Fecha
                         </p>
