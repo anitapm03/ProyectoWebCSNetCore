@@ -20,5 +20,8 @@ namespace ProyectoWebCSNetCore.Data
         public DbSet<Genero> Generos { get; set; }
         public DbSet<Publicacion> Publicaciones { get; set;}
         public DbSet<UserPubli> PublicacionesUsuarios { get; set; }
+
+        public DbSet<ArtistaConcierto> RelacionesConcierto { get; set; }
+        public DbSet<ArtistaGenero> RelacionesGenero { get; set; }
     }
 }

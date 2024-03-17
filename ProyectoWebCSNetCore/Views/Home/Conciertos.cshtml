@@ -45,6 +45,10 @@
                         <a asp-controller="Home" asp-action="DetallesConcierto"
                            asp-route-idevento="@e.IdConcierto"
                            class="btn btn-primary">Ver detalles!</a>
+
+                            <a asp-controller="Home" asp-action="EliminarFavoritos"
+                               asp-route-idconcierto="@e.IdConcierto"
+                               class="btn btn-outline-danger">💔</a>
                     </div>
                 </div>
             </div>

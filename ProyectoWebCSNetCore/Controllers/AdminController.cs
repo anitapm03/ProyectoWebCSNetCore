@@ -108,6 +108,19 @@ namespace ProyectoWebCSNetCore.Controllers
             
         }
 
+        //DESTACAR
+        public async Task<IActionResult> Destacar(int idconcierto)
+        {
+            this.repoConciertos.DestacarEvento(idconcierto);
+            return RedirectToAction("VerConciertos");
+        }
+
+        public async Task<IActionResult> EliminarDestacado(int idconcierto)
+        {
+            this.repoConciertos.NoDestacarEvento(idconcierto);
+            return RedirectToAction("VerConciertos");
+        }
+
         public async Task<IActionResult> CrearConciertoAsync()
         {
             List<Sala> salas = this.repoSalas.GetSalas();

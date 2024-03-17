@@ -35,3 +35,20 @@
     <br />
     <button class="btn btn-success">Guardar!</button>
 </form>
+<br /><br />
+@if(Model.Concierto.Destacado == false)
+{
+    <a asp-controller="Admin" asp-action="Destacar"
+    asp-route-idconcierto="@Model.Concierto.IdConcierto"
+    class="btn btn-success">
+    Destacar
+    </a>
+}
+else
+{
+    <a asp-controller="Admin" asp-action="EliminarDestacado"
+       asp-route-idconcierto="@Model.Concierto.IdConcierto"
+       class="btn btn-danger">
+        Eliminar de destacados
+    </a>
+}

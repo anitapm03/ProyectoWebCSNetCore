@@ -78,6 +78,20 @@ AS
 	IDSALA = @IDSALA, GRUPO = @GRUPO
 	where IDCONCIERTO = @ID
 GO
+
+    CREATE PROCEDURE SP_DESTACAR_EVENTO
+(@IDCONCIERTO INT)
+AS
+	UPDATE CONCIERTO SET DESTACADO = 1
+	WHERE IDCONCIERTO = @IDCONCIERTO
+GO
+
+    CREATE PROCEDURE SP_NODESTACAR_EVENTO
+(@IDCONCIERTO INT)
+AS
+	UPDATE CONCIERTO SET DESTACADO = 0
+	WHERE IDCONCIERTO = @IDCONCIERTO
+GO
      */
     #endregion
 
@@ -171,6 +185,22 @@ GO
         {
             string sql = "SP_ELIMINARCONCIERTO @ID";
             SqlParameter pid = new SqlParameter("@ID", id);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
+        }
+
+        public void DestacarEvento(int idconcierto)
+        {
+            string sql = "SP_DESTACAR_EVENTO @IDCONCIERTO";
+            SqlParameter pid = new SqlParameter("@IDCONCIERTO", idconcierto);
+
+            this.context.Database.ExecuteSqlRaw(sql, pid);
+        }
+
+        public void NoDestacarEvento(int idconcierto)
+        {
+            string sql = "SP_NODESTACAR_EVENTO @IDCONCIERTO";
+            SqlParameter pid = new SqlParameter("@IDCONCIERTO", idconcierto);
 
             this.context.Database.ExecuteSqlRaw(sql, pid);
         }

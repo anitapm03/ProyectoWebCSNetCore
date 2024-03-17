@@ -55,11 +55,34 @@ namespace ProyectoWebCSNetCore.Controllers
             return View(eventos);
         }
 
+        public IActionResult EliminarFavoritos(int idconcierto)
+        {
+            List<Evento> eventosFav;
 
-        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Client)]
+            eventosFav = this.memoryCache.Get<List<Evento>>("FAV");
+            
+            int index = eventosFav.FindIndex(e => e.IdConcierto == idconcierto);
+            if (index != -1)
+            {
+                eventosFav.RemoveAt(index);
+
+                if (eventosFav.Count == 0)
+                {
+                    // Si la lista de favoritos está vacía después de eliminar el elemento, elimina la colección de favoritos de la memoria caché
+                    this.memoryCache.Remove("FAV");
+                }
+                else
+                {
+                    // Vuelve a establecer la lista de favoritos en la memoria caché
+                    this.memoryCache.Set("FAV", eventosFav);
+                }
+            }
+            return RedirectToAction("Conciertos");
+        }
+
+        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client)]
         public IActionResult DetallesConcierto(int idevento, int? idfav)
         {
-            
 
             if (idfav != null)
             {
@@ -84,6 +107,7 @@ namespace ProyectoWebCSNetCore.Controllers
                 return View(evento);
             }
 
+           
         }
 
         public IActionResult Artistas()

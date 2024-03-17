@@ -82,11 +82,11 @@ namespace ProyectoWebCSNetCore.Controllers
             TempData["TOKEN"] = token;
             
             serverUrl = serverUrl + "/Sesion/ActivateUser/" + token;
-            string mensaje = "<h3>Usuario registrado</h3>";
+            string mensaje = "<h3>¡El usuario ha sido registrado!</h3>";
             mensaje += "<p>Debe activar su cuenta con nosotros pulsando el siguiente enlace</p>";
-            mensaje += "<p>" + serverUrl + "</p>";
+            //mensaje += "<p>" + serverUrl + "</p>";
             mensaje += "<a href='" + serverUrl + "'>" + serverUrl + "</a>";
-            mensaje += "<p>Muchas gracias</p>";
+            mensaje += "<p>¡Gracias por unirte a nuestra comunidad!</p>";
             await this.helperMails.SendMailAsync(email, "Registro Usuario", mensaje);
             ViewData["MENSAJE"] = "Usuario registrado correctamente. " +
                 " Hemos enviado un mail para activar su cuenta";
