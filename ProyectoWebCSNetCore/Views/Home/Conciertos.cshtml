@@ -13,7 +13,7 @@
 
 <div style="display: flex; justify-content: space-between;">
     <div style="text-align: left;">
-        <h1>Eventos próximos</h1>
+        <h1>Conciertos</h1>
     </div>
     <div style="text-align: right;">
         <p>
@@ -30,7 +30,7 @@
 
 @if(favoritos != null)
 {
-    <h1>Favoritos:</h1>
+    <h2>Favoritos:</h2>
     <div id="carouselfavoritos" class="carousel">
     <div class="carousel-inner">
         @foreach (Evento e in favoritos)
@@ -109,8 +109,10 @@
 </div>
 }
 
+<h2>Eventos próximos.</h2>
 <div id="carouselExampleControls" class="carousel">
     <div class="carousel-inner">
+        
         @foreach (Evento e in Model)
         {
             <div class="carousel-item ">

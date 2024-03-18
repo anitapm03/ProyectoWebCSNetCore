@@ -3,7 +3,48 @@
 
 <h1>Bienvenido de nuevo @Model.Nombre!</h1>
 
-<div style="display: flex;">
+<div class="d-flex justify-content-center" style="width: 100%;">
+    <div style="display: flex; width: 100%;">
+
+        <div style="width: 30%; margin: 10px;">
+            <img src="~/images/users/@Model.FotoPerfil" style="width: 250px; height: 250px; border-radius: 20px;" />
+            <br /><br />
+            <a asp-controller="Sesion" asp-action="CambiarFotoPerfil" class="btn btn-outline-info">
+                Cambiar la foto
+            </a>
+            <br /><br />
+            <a asp-controller="Sesion" asp-action="CambiarContrasena" class="btn btn-outline-success">
+                Cambiar contraseña
+            </a>
+        </div>
+
+        <div style="flex-grow: 1; padding: 10px; margin: 10px;">
+            <div class="card text-white bg-dark mb-3">
+                <div class="card-body text-center">
+
+                    <form method="post">
+                        <label>Nombre de usuario:</label>
+                        <input type="text" name="nombre" class="form-control" value="@Model.Nombre" />
+                        <br />
+                        <label>Email:</label>
+                        <input type="text" name="email" class="form-control" value="@Model.Email" />
+                        <br />
+                        <label>Sobre ti:</label>
+                        <textarea rows="3" name="bio" class="form-control">@Model.Bio</textarea>
+                        <br />
+
+                        <button class="btn btn-light">Actualizar información</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+@*<div style="display: flex;">
     <div style="padding: 10px; margin: 10px;">
 
         <img src="~/images/users/@Model.FotoPerfil" style="width: 200px; height: 200px" />
@@ -33,6 +74,5 @@
             <button class="btn btn-info">Actualizar información</button>
         </form>
     </div>
-</div>
-
+</div>*@
 

@@ -4,31 +4,49 @@
     List<Genero> generosArtista = ViewData["GENEROSARTISTA"] as List<Genero>;
 }
 
-<h1>Detalles del artista</h1>
+<div class="header container d-flex align-items-center justify-content-center ">
+    <div style="display: flex;">
 
-<div>
-    <img src="~/images/artistas/@Model.Imagen" style="width:200px;height:200px;" />
-</div>
-<div>
-    <h1>@Model.Nombre</h1>
-    <p>@Model.Descripcion</p>
-    @if (generosArtista != null)
-    {
-        <h3>Géneros:</h3>
-        <ul class="list-group">
-            @foreach (Genero g in generosArtista)
+        <div style="margin: 10px;">
+            <img src="~/images/artistas/@Model.Imagen" style="width:350px; height:350px; border-radius: 20px;" />
+            <br /><br />
+            <a href="@Model.Spotify" class="btn btn-success">
+                Spotify
+            </a>
+
+            <a asp-controller="Home" asp-action="Artistas"
+               class="btn btn-dark">
+                Volver
+            </a>
+        </div>
+
+        <div style="width: 60%; margin: 10px;">
+            <div class="card text-white bg-dark mb-3" >
+                <div class="card-body text-center">
+
+                    <h1>@Model.Nombre</h1>
+                    <p>@Model.Descripcion</p>
+                    
+                </div>
+            </div>
+
+            @if (generosArtista != null)
             {
-                <li>
-                    @g.Nombre
-                </li>
+                <h3>Géneros:</h3>
+                <ul class="list-group">
+                    @foreach (Genero g in generosArtista)
+                    {
+                        <li class="list-group-item border-0">
+                            @g.Nombre
+                        </li>
+                    }
+                </ul>
             }
-        </ul>
-    }
-    else
-    {
-        <p>Este artista no tiene géneros asignados</p>
-    }
-    <a href="@Model.Spotify" class="btn btn-success">
-        Spotify
-    </a>
+            else
+            {
+                <p>Este artista no tiene géneros asignados</p>
+            }
+        </div>
+
+    </div>
 </div>
