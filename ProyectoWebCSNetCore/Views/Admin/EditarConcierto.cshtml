@@ -3,91 +3,115 @@
     List<Artista> artistas = ViewData["ARTISTAS"] as List<Artista>;
     List<Artista> artistasConciero = ViewData["ARTISTASCONCIERTO"] as List<Artista>;
 }
-<h1>Editar concierto</h1>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="hidden" name="id" value="@Model.Concierto.IdConcierto"/>
-    <input type="text" name="nombre" value="@Model.Concierto.Nombre" class="form-control" />
-    <br />
-    <input type="date" name="fecha" value="@Model.Concierto.Fecha.ToString("yyyy-MM-dd")" class="form-control" />
-    <br />
-    <label>Imagen:</label>
-    <input type="file" name="foto" class="form-control" />
-    <br />
-    <input type="text" name="entradas" value="@Model.Concierto.Entradas" class="form-control" />
-    <br />
-    <select name="sala" class="form-control">
-        @foreach (Sala s in Model.Salas)
-        {
-            @if (s.IdSala == Model.Concierto.IdSala)
+<div style="display: flex;">
+
+    <div class="row justify-content-center" style="width: 45%; margin: 10px;">
+    <div class="card text-white bg-dark mb-3" >
+        <div class="card-body text-center">
+            <h2>Editar concierto</h2>
+            <form method="post" enctype="multipart/form-data">
+                <input type="hidden" name="id" value="@Model.Concierto.IdConcierto" />
+                <input type="text" name="nombre" value="@Model.Concierto.Nombre" class="form-control" />
+                <br />
+                <input type="date" name="fecha" value="@Model.Concierto.Fecha.ToString("yyyy-MM-dd")" class="form-control" />
+                <br />
+                <label>Imagen:</label>
+                <input type="file" name="foto" class="form-control" />
+                <br />
+                <input type="text" name="entradas" value="@Model.Concierto.Entradas" class="form-control" />
+                <br />
+                <select name="sala" class="form-control">
+                    @foreach (Sala s in Model.Salas)
+                    {
+                        @if (s.IdSala == Model.Concierto.IdSala)
+                        {
+                            <option value="@s.IdSala" selected>
+                                @s.Nombre
+                            </option>
+                        }
+                        else
+                        {
+                            <option value="@s.IdSala">
+                                @s.Nombre
+                            </option>
+                        }
+                    }
+                </select>
+                <br />
+                <input type="text" name="grupo" value="@Model.Concierto.Grupo" class="form-control" />
+                <br />
+                <button class="btn btn-success">Guardar!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row justify-content-center" style="width: 45%; margin: 10px;">
+    <div class="card text-white bg-dark mb-3" >
+        <div class="card-body text-center">
+            <h3>Otras acciones:</h3>
+
+            @if (Model.Concierto.Destacado == false)
             {
-                <option value="@s.IdSala" selected>
-                    @s.Nombre
-                </option>
+                <a asp-controller="Admin" asp-action="Destacar"
+                   asp-route-idconcierto="@Model.Concierto.IdConcierto"
+                   class="btn btn-success">
+                    Destacar
+                </a>
             }
             else
             {
-                <option value="@s.IdSala">
-                    @s.Nombre
-                </option>
+                <a asp-controller="Admin" asp-action="EliminarDestacado"
+                   asp-route-idconcierto="@Model.Concierto.IdConcierto"
+                   class="btn btn-danger">
+                    Eliminar de destacados
+                </a>
             }
-        }
-    </select>
-    <br />
-    <input type="text" name="grupo" value="@Model.Concierto.Grupo" class="form-control" />
-    <br />
-    <button class="btn btn-success">Guardar!</button>
-</form>
-<br /><br />
-@if(Model.Concierto.Destacado == false)
-{
-    <a asp-controller="Admin" asp-action="Destacar"
-    asp-route-idconcierto="@Model.Concierto.IdConcierto"
-    class="btn btn-success">
-    Destacar
-    </a>
-}
-else
-{
-    <a asp-controller="Admin" asp-action="EliminarDestacado"
-       asp-route-idconcierto="@Model.Concierto.IdConcierto"
-       class="btn btn-danger">
-        Eliminar de destacados
-    </a>
-}
+            <br /><br />
+            @if (artistasConciero != null)
+            {
+                <h3>Artistas:</h3>
+                <ul class="list-group">
+                    @foreach (Artista artista in artistasConciero)
+                    {
+                        <li class="list-item">
+                            @artista.Nombre
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p>Este concierto no tiene artistas asignados.</p>
+            }
 
-<br />
+            <br />
+            <form method="post">
+                <label>Añadir un artista:</label>
+                <select name="idartista" class="form-control">
+                    @foreach (Artista a in artistas)
+                    {
+                        <option value="@a.IdArtista">
+                            @a.Nombre
+                        </option>
+                    }
+                </select>
+                <input type="hidden" name="idconcierto" value="@Model.Concierto.IdConcierto" />
+                <br />
+                <button class="btn btn-success">Añadir artista</button>
+            </form>
 
+            <br />
+                <div style="text-align: center;">
+                    <a asp-controller="Admin" asp-action="VerConciertos"
+                       class="btn btn-light">
+                        Volver
+                    </a>
+                </div>
+        </div>
+    </<div>
+ </div>
 
-@if (artistasConciero != null)
-{
-    <h3>Artistas:</h3>
-    <ul class="list-group">
-        @foreach (Artista artista in artistasConciero)
-        {
-            <li>
-                @artista.Nombre
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Este concierto no tiene artistas asignados.</p>
-}
-
-<br />
-<form method="post">
-    <label>Añadir un artista:</label>
-    <select name="idartista" class="form-control">
-        @foreach (Artista a in artistas)
-        {
-            <option value="@a.IdArtista">
-                @a.Nombre
-            </option>
-        }
-    </select>
-    <input type="hidden" name="idconcierto" value="@Model.Concierto.IdConcierto" />
-    <br />
-    <button class="btn btn-success">Añadir artista</button>
-</form>
+</div>

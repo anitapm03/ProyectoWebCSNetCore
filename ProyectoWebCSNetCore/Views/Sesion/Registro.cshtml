@@ -1,27 +1,25 @@
 ﻿@model Usuario 
 
-<div>
+<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 25rem;">
+        <div class="card-body text-center">
+            
+            <h2>Registrarse</h2>
+            <br />
+            <form method="post" enctype="multipart/form-data">
+                <input type="text" name="nombre" class="form-control" required placeholder="Nombre de usuario" />
+                <br />
+                <input type="text" name="email" class="form-control" required placeholder="Email" />
+                <br />
+                <input type="password" name="contrasena" class="form-control" required placeholder="Contraseña" />
+                <br />
+                <label>Sobre ti:</label>
+                <textarea rows="5" name="bio" class="form-control" required></textarea>
+                <br />
+                <button class="btn btn-light">Resgistrame!</button>
+            </form>
 
-    <h1>Formulario de registro:</h1>
-
-    <form method="post" enctype="multipart/form-data">
-        <label>Nombre de usuario:</label>
-        <input type="text" name="nombre" class="form-control" />
-        <br />
-        <label>Email:</label>
-        <input type="text" name="email" class="form-control" />
-        <br />
-        <label>Contraseña:</label>
-        <input type="text" name="contrasena" class="form-control" />
-        <br />
-        <label>Confirmar contraseña:</label>
-        <input type="text" name="confirmar" class="form-control" />
-        <br />
-        <label>Sobre ti:</label>
-        <textarea rows="5" name="bio" class="form-control"></textarea>
-        <br />
-        <button class="btn btn-dark">Resgistrame!</button>
-    </form>
-
-    <h2 style="color:forestgreen">@ViewData["MENSAJE"]</h2>
-</div>
+            <p style="color:lightgray">@ViewData["MENSAJE"]</p>
+        </div>
+    </div>
+</div> 

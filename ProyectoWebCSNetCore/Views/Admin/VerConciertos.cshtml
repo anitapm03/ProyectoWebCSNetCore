@@ -23,22 +23,45 @@
     <tbody>
         @foreach (Evento e in Model)
         {
-            <tr>
-                <td>@e.Nombre</td>
-                <td>@e.Fecha</td>
-                <td>@e.NombreSala</td>
-                <td>@e.Provincia</td>
-                <td>
-                    <a asp-controller="Admin" asp-action="EliminarConcierto"
-                       asp-route-id="@e.IdConcierto" class="btn btn-danger">
-                        Eliminar
-                    </a>
-                    <a asp-controller="Admin" asp-action="EditarConcierto"
-                       asp-route-id="@e.IdConcierto" class="btn btn-info">
-                        Editar
-                    </a>
-                </td>
-            </tr>
+            @if (e.Fecha < DateTime.Now)
+            {
+                <tr class="table-warning">
+                    <td>@e.Nombre</td>
+                    <td>@e.Fecha</td>
+                    <td>@e.NombreSala</td>
+                    <td>@e.Provincia</td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="EliminarConcierto"
+                           asp-route-id="@e.IdConcierto" class="btn btn-danger">
+                            Eliminar
+                        </a>
+                        <a asp-controller="Admin" asp-action="EditarConcierto"
+                           asp-route-id="@e.IdConcierto" class="btn btn-info">
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@e.Nombre</td>
+                    <td>@e.Fecha</td>
+                    <td>@e.NombreSala</td>
+                    <td>@e.Provincia</td>
+                    <td>
+                        <a asp-controller="Admin" asp-action="EliminarConcierto"
+                           asp-route-id="@e.IdConcierto" class="btn btn-danger">
+                            Eliminar
+                        </a>
+                        <a asp-controller="Admin" asp-action="EditarConcierto"
+                           asp-route-id="@e.IdConcierto" class="btn btn-info">
+                            Editar
+                        </a>
+                    </td>
+                </tr>
+            }
+            
         }
     </tbody>
 </table>

@@ -1,34 +1,45 @@
 ﻿@model List<Provincia>
 
 <div class="container align-items-center justify-content-center" style="width: 60%;">
+    <div class="card text-white bg-dark mb-3" >
+        <div class="card-body text-center">
 
-    <h1>Solicitar concierto:</h1>
-    <br />
-    <form method="post" >
+            <h2>Solicitar concierto:</h2>
+            <br />
+            <form method="post">
 
-        <label>Nombre del artista:</label>
-        <input type="text" name="nombre" class="form-control" />
-        <br />
-        <label>Provincia</label>
-        <select name="idprovincia" class="form-control">
-            @foreach (Provincia p in Model)
-            {
-                <option value="@p.IdProvincia">
-                    @p.Nombre
-                </option>
-            }
-        </select>
-        <br />
-        <label>Fecha:</label>
-        <input type="date" name="fecha" class="form-control" />
-        <br />
-        <label>Numero de teléfono:</label>
-        <input type="text" name="telefono" class="form-control" 
-        placeholder="Necesario para el grupo de WhatsApp"/>
-        <br />
-        <button class="btn btn-outline-success">
-            Enviar solicitud!
-        </button>
-    </form>
+                <label>Nombre del artista:</label>
+                <input type="text" name="nombre" class="form-control" required/>
+                <br />
+                <label>Provincia</label>
+                <select name="idprovincia" class="form-control">
+                    @foreach (Provincia p in Model)
+                    {
+                        <option value="@p.IdProvincia">
+                            @p.Nombre
+                        </option>
+                    }
+                </select>
+                <br />
+                <label>Fecha:</label>
+                <input type="date" name="fecha" class="form-control" required />
+                <br />
+                <label>Numero de teléfono:</label>
+                <input type="text" name="telefono" class="form-control"
+                       placeholder="Necesario para el grupo de WhatsApp" required />
+                <br />
+                <button class="btn btn-light">
+                    Enviar solicitud!
+                </button>
+            </form>
 
+        </div>
+    </div>
+
+</div>
+<div style="text-align: center;">
+    <a asp-controller="Home" asp-action="Conciertos"
+       class="btn btn-dark">
+        Volver
+    </a>
 </div>

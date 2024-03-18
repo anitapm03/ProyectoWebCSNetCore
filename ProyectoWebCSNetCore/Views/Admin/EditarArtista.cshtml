@@ -4,53 +4,83 @@
     List<Genero> generosArtista = ViewData["GENEROSARTISTA"] as List<Genero>;
 }
 
-<h1>Editar artista:</h1>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="hidden" value="@Model.IdArtista" />
-    <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
-    <br />
-    <label>Imagen del artista:</label>
-    <input type="file" name="foto" class="form-control" />
-    <br />
-    <input type="text" name="spotify" value="@Model.Spotify" class="form-control" />
-    <br />
-    <textarea rows="3" name="descripcion" class="form-control">@Model.Descripcion </textarea>
-    <br />
-    <button class="btn btn-success">Guardar!</button>
-</form>
+<div style="display: flex;">
 
-<br />
-<h3>Generos del artista:</h3>
+    <div class="row justify-content-center" style="width: 45%; margin: 10px;">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body text-center">
 
-@if(generosArtista != null)
-{
-    <ul class="list-group">
-        @foreach (Genero g in generosArtista)
-        {
-            <li>
-                @g.Nombre
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <p>Este artista no tiene géneros asignados</p>
-}
+                <h1>Editar artista:</h1>
+
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" value="@Model.IdArtista" />
+                    <input type="text" name="nombre" value="@Model.Nombre" class="form-control" />
+                    <br />
+                    <label>Imagen del artista:</label>
+                    <input type="file" name="foto" class="form-control" />
+                    <br />
+                    <input type="text" name="spotify" value="@Model.Spotify" class="form-control" />
+                    <br />
+                    <textarea rows="3" name="descripcion" class="form-control">@Model.Descripcion </textarea>
+                    <br />
+                    <button class="btn btn-success">Guardar!</button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 
-<form method="post">
-    <label>Añadir un género:</label>
-    <select name="idgenero" class="form-control">
-        @foreach (Genero g in generos)
-        {
-            <option value="@g.IdGenero">
-                @g.Nombre
-            </option>
-        }
-    </select>
-    <input type="hidden" name="idartista" value="@Model.IdArtista"/>
-    <br />
-    <button class="btn btn-success">Añadir género</button>
-</form>
+
+    <div class="row justify-content-center" style="width: 45%; margin: 10px;">
+        <div class="card text-white bg-dark mb-3">
+            <div class="card-body text-center">
+                <h2>Otras acciones:</h2>
+
+                <h3>Generos del artista:</h3>
+
+                @if (generosArtista != null)
+                {
+                    <ul class="list-group">
+                        @foreach (Genero g in generosArtista)
+                        {
+                            <li>
+                                @g.Nombre
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p>Este artista no tiene géneros asignados</p>
+                }
+
+                <br />
+                <form method="post">
+                    <label>Añadir un género:</label>
+                    <select name="idgenero" class="form-control">
+                        @foreach (Genero g in generos)
+                        {
+                            <option value="@g.IdGenero">
+                                @g.Nombre
+                            </option>
+                        }
+                    </select>
+                    <input type="hidden" name="idartista" value="@Model.IdArtista" />
+                    <br />
+                    <button class="btn btn-success">Añadir género</button>
+                </form>
+
+                <br />
+                <div style="text-align: center;">
+                    <a asp-controller="Admin" asp-action="VerArtistas"
+                       class="btn btn-light">
+                        Volver
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>

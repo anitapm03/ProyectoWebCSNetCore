@@ -1,9 +1,23 @@
 ﻿
-<h1>Nuevo genero:</h1>
+<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 65%;">
+        <div class="card-body text-center">
 
-<form method="post">
-    <label>Nombre:</label>
-    <input type="text" name="nombre" class="form-control"/>
-    <br />
-    <button class="btn btn-success">Guardar!</button>
-</form>
+            <h1>Nuevo genero:</h1>
+
+            <form method="post">
+                <label>Nombre:</label>
+                <input type="text" name="nombre" class="form-control" required/>
+                <br />
+                <button class="btn btn-success">Guardar!</button>
+            </form>
+        </div>
+    </div>
+</div> 
+
+<div style="text-align: center;">
+    <a asp-controller="Admin" asp-action="VerGeneros"
+       class="btn btn-outline-dark">
+        Volver
+    </a>
+</div>

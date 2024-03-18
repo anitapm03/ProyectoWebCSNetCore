@@ -1,27 +1,40 @@
 ﻿@model List<Sala>
 
-<h1>Nuevo Concierto</h1>
+<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 75%;">
+        <div class="card-body text-center">
+            <h2>Nuevo Concierto</h2>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="text" name="nombre" placeholder="Nombre del evento" class="form-control" />
-    <br />
-    <input type="date" name="fecha" class="form-control" />
-    <br />
-    <label>Imagen:</label>
-    <input type="file" name="foto" class="form-control" />
-    <br />
-    <input type="text" name="entradas" placeholder="Enlace a las entradas" class="form-control" />
-    <br />
-    <select name="sala" class="form-control">
-        @foreach(Sala s in Model)
-        {
-            <option value="@s.IdSala">
-                @s.Nombre
-            </option>
-        }
-    </select>
-    <br />
-    <input type="text" name="grupo" placeholder="Enlace al grupo" class="form-control" />
-    <br />
-    <button class="btn btn-success">Guardar!</button>
-</form>
+            <form method="post" enctype="multipart/form-data">
+                <input type="text" name="nombre" placeholder="Nombre del evento" class="form-control" required />
+                <br />
+                <input type="date" name="fecha" class="form-control" required />
+                <br />
+                <label>Imagen:</label>
+                <input type="file" name="foto" class="form-control" required />
+                <br />
+                <input type="text" name="entradas" placeholder="Enlace a las entradas" class="form-control" required />
+                <br />
+                <select name="sala" class="form-control">
+                    @foreach (Sala s in Model)
+                    {
+                        <option value="@s.IdSala">
+                            @s.Nombre
+                        </option>
+                    }
+                </select>
+                <br />
+                <input type="text" name="grupo" placeholder="Enlace al grupo" class="form-control" required />
+                <br />
+                <button class="btn btn-success">Guardar!</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <a asp-controller="Admin" asp-action="VerConciertos"
+       class="btn btn-outline-dark">
+        Volver
+    </a>
+</div>

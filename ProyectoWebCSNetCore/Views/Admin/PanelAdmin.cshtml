@@ -1,29 +1,47 @@
 ﻿
+<div class="header container d-flex align-items-center justify-content-center ">
+    <h2>Bienvenido al panel de administración.</h2>
+</div>
+
+<div class="header container d-flex align-items-center justify-content-center ">
+    <h3>Elige el apartado sobre el <br />que quieras aplicar cambios.</h3>
+</div>
+
+<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 50%;">
+        <div class="card-body text-center">
+            <h3>Administración parte pública.</h3>
+            <a asp-controller="Admin" asp-action="VerPeticiones" class="btn btn-light">
+                Peticiones
+            </a>
+            <br /><br />
+            <h3>Administración de eventos.</h3>
+            <a asp-controller="Admin" asp-action="VerConciertos" class="btn btn-light">
+                Conciertos
+            </a>
+            <a asp-controller="Admin" asp-action="VerSalas" class="btn btn-light">
+                Salas
+            </a>
+            <a asp-controller="Admin" asp-action="VerArtistas" class="btn btn-light">
+                Artistas
+            </a>
+            <a asp-controller="Admin" asp-action="VerGeneros" class="btn btn-light">
+                Géneros
+            </a>
+            <br /><br />
+            <h3>Administración de sesión.</h3>
+            <a asp-controller="Admin" asp-action="VerUsuarios" class="btn btn-light">
+                Usuarios
+            </a>
+            <a asp-controller="Admin" asp-action="VerPublicaciones" class="btn btn-light">
+                Publicaciones
+            </a>
+            <br /><br />
+        </div>
+    </div>
+</div>
 
 
-<h1>Bienvenido al panel de administración</h1>
-
-<a asp-controller="Admin" asp-action="VerPeticiones" class="btn btn-dark">
-    Peticiones
-</a>
-<a asp-controller="Admin" asp-action="VerConciertos" class="btn btn-dark">
-    Conciertos
-</a>
-<a asp-controller="Admin" asp-action="VerSalas" class="btn btn-dark">
-    Salas
-</a>
-<a asp-controller="Admin" asp-action="VerArtistas" class="btn btn-dark">
-    Artistas
-</a>
-<a asp-controller="Admin" asp-action="VerGeneros" class="btn btn-dark">
-    Géneros
-</a>
-<a asp-controller="Admin" asp-action="VerUsuarios" class="btn btn-dark">
-    Usuarios
-</a>
-<a asp-controller="Admin" asp-action="VerPublicaciones" class="btn btn-dark">
-    Publicaciones
-</a>
 
 
 @* https://getbootstrap.com/docs/5.0/components/card/ *@

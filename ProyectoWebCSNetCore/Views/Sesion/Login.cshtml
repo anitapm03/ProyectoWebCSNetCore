@@ -1,17 +1,23 @@
-﻿<div>
+﻿<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 20rem;">
+        <div class="card-body text-center">
+            
+            <img src="~/images/logosinfondoblanco.png" style="width: 200px;height:200px" />
+            
+            <h2>Iniciar sesión</h2>
 
-    <h1>Iniciar sesión</h1>
-
-    <form method="post" >
-        <label>Email</label>
-        <input type="text" name="email" class="form-control" />
-        <br />
-        <label>Contraseña</label>
-        <input type="text" name="contrasena" class="form-control" />
-        <br />
-        <button class="btn btn-dark">
-            Iniciar Sesión
-        </button>
-    </form>
-    <h2>@ViewData["MENSAJE"]</h2>
+            <form method="post" >
+                <label>Email</label>
+                <input type="text" name="email" class="form-control" required/>
+                <br />
+                <label>Contraseña</label>
+                <input type="password" name="contrasena" class="form-control" required/>
+                <br />
+                <button class="btn btn-light">
+                    Iniciar Sesión
+                </button>
+            </form>
+            <h2>@ViewData["MENSAJE"]</h2>
+        </div>
+    </div>
 </div> 

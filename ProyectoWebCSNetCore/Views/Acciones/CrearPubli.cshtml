@@ -1,11 +1,28 @@
-﻿<h1>Nueva publicación:</h1>
+﻿<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 60%;">
+        <div class="card-body text-center">
 
-<form method="post" enctype="multipart/form-data">
-    <label>Añadir imagen</label>
-    <input type="file" name="foto" class="form-control"/>
-    <br />
-    <textarea rows="3" placeholder="Cuéntanos tu experiencia!"
-    name="texto" class="form-control"></textarea>
-    <br />
-    <button class="btn btn-dark">Publicar!</button>
-</form>
+            <h2>Nueva publicación</h2>
+
+            <form method="post" enctype="multipart/form-data">
+                <label>Añadir imagen:</label>
+                <input type="file" name="foto" class="form-control" required/>
+                <br />
+                <textarea rows="3" placeholder="Cuéntanos tu experiencia!"
+                          name="texto" class="form-control" required></textarea>
+                <br />
+                <button class="btn btn-light">Publicar!</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<div style="text-align: center;">
+    <a asp-controller="Home" asp-action="Publicaciones"
+       class="btn btn-dark">
+        Volver
+    </a>
+</div>
+
+

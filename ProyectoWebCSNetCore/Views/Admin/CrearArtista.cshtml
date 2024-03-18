@@ -1,15 +1,28 @@
 ﻿
-<h1>Nuevo artista:</h1>
+<div class="row justify-content-center">
+    <div class="card text-white bg-dark mb-3" style="width: 85%;">
+        <div class="card-body text-center">
+            <h2>Nuevo artista:</h2>
 
-<form method="post" enctype="multipart/form-data">
-    <input type="text" name="nombre" placeholder="Nombre del artista" class="form-control" />
-    <br />
-    <label>Imagen del artista:</label>
-    <input type="file" name="foto" class="form-control" />
-    <br />
-    <input type="text" name="spotify" placeholder="Enlace de spotify" class="form-control" />
-    <br />
-    <textarea rows="3" name="descripcion" placeholder="Descripción" class="form-control"></textarea>
-    <br />
-    <button class="btn btn-success">Guardar!</button>
-</form>
+            <form method="post" enctype="multipart/form-data">
+                <input type="text" name="nombre" placeholder="Nombre del artista" class="form-control" required/>
+                <br />
+                <label>Imagen del artista:</label>
+                <input type="file" name="foto" class="form-control" required/>
+                <br />
+                <input type="text" name="spotify" placeholder="Enlace de spotify" class="form-control" required />
+                <br />
+                <textarea rows="3" name="descripcion" placeholder="Descripción" class="form-control" required></textarea>
+                <br />
+                <button class="btn btn-success">Guardar!</button>
+            </form>
+        </div>
+    </div>
+</div> 
+
+<div style="text-align: center;">
+    <a asp-controller="Admin" asp-action="VerArtistas"
+       class="btn btn-outline-dark">
+        Volver
+    </a>
+</div>
