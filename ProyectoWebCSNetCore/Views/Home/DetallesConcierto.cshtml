@@ -2,6 +2,11 @@
 
 @{
     List<Artista> artistasConcierto = ViewData["ARTISTASCONCIERTO"] as List<Artista>;
+    bool esfav = false;
+    if (ViewData["ESFAV"] != null)
+    {
+        esfav = true;
+    }
 }
 
 <div style="display: flex;">
@@ -42,10 +47,19 @@
 
         @if (Context.Session.GetString("USUARIO") != null)
         {
-            <a asp-controller="Home"
-               asp-action="DetallesConcierto"
-               asp-route-idfav="@Model.IdConcierto"
-               class="btn btn-danger">❤️</a>
+            @if(!esfav)
+            {
+                <a asp-controller="Home"
+                   asp-action="DetallesConcierto"
+                   asp-route-idfav="@Model.IdConcierto"
+                class="btn btn-danger">❤️</a>
+            }
+            else
+            {
+                <a asp-controller="Home" asp-action="EliminarFavoritos"
+                   asp-route-idconcierto="@Model.IdConcierto"
+                   class="btn btn-outline-danger">💔</a>
+            }
         }
     </div>
 

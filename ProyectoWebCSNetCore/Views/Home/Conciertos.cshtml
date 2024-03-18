@@ -36,25 +36,27 @@
         {
 
             <div class="carousel-item">
-
-                <div class="card">
-                    <div class="img-wrapper">
-                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
+                <a asp-controller="Home" asp-action="DetallesConcierto"
+                   asp-route-idevento="@e.IdConcierto"
+                       style="color: black;text-decoration: none;">
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">
+                                @e.Nombre
+                                        @* <a asp-controller="Home" asp-action="EliminarFavoritos"
+                                           asp-route-idconcierto="@e.IdConcierto"
+                                           class="btn btn-outline-danger">💔</a> *@
+                            </h3>
+                            <p class="card-text">
+                                @e.Fecha
+                            </p>
+                        
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <h3 class="card-title">@e.Nombre</h3>
-                        <p class="card-text">
-                            @e.Fecha
-                        </p>
-                        <a asp-controller="Home" asp-action="DetallesConcierto"
-                           asp-route-idevento="@e.IdConcierto"
-                           class="btn btn-primary">Ver detalles!</a>
-
-                            <a asp-controller="Home" asp-action="EliminarFavoritos"
-                               asp-route-idconcierto="@e.IdConcierto"
-                               class="btn btn-outline-danger">💔</a>
-                    </div>
-                </div>
+                </a>
             </div>
         }
     </div>

@@ -76,21 +76,30 @@ namespace ProyectoWebCSNetCore.Controllers
 
                 if (eventosFav.Count == 0)
                 {
-                    // Si la lista de favoritos está vacía después de eliminar el elemento, elimina la colección de favoritos de la memoria caché
                     this.memoryCache.Remove("FAV");
                 }
                 else
                 {
-                    // Vuelve a establecer la lista de favoritos en la memoria caché
                     this.memoryCache.Set("FAV", eventosFav);
                 }
             }
             return RedirectToAction("Conciertos");
         }
 
-        [ResponseCache(Duration = 300, Location = ResponseCacheLocation.Client)]
+        
         public IActionResult DetallesConcierto(int idevento, int? idfav)
         {
+            if(this.memoryCache.Get<List<Evento>>("FAV") != null)
+            {
+                List<Evento> listaFav = this.memoryCache.Get<List<Evento>>("FAV");
+
+                int index = listaFav.FindIndex(e => e.IdConcierto == idevento);
+                if (index != -1)
+                {
+                    ViewData["ESFAV"] = true;
+                }
+            }
+            
 
             if (idfav != null)
             {
@@ -108,7 +117,7 @@ namespace ProyectoWebCSNetCore.Controllers
 
                 this.memoryCache.Set("FAV", eventosFav);
 
-                List<ArtistaConcierto> relaciones = this.repoRela.GetArtistasConcierto(idevento);
+                List<ArtistaConcierto> relaciones = this.repoRela.GetArtistasConcierto(idfav.Value);
                 List<Artista> artistasConcierto = new List<Artista>();
                 foreach (ArtistaConcierto artista in relaciones)
                 {
@@ -117,6 +126,7 @@ namespace ProyectoWebCSNetCore.Controllers
                 }
 
                 ViewData["ARTISTASCONCIERTO"] = artistasConcierto;
+                ViewData["ESFAV"] = true;
 
                 return View(evento);
             }
