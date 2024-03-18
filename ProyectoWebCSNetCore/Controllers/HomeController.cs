@@ -13,18 +13,24 @@ namespace ProyectoWebCSNetCore.Controllers
         private RepositoryArtistas repoArtistas;
         private RepositoryPublicaciones repoPublicaciones;
         private IMemoryCache memoryCache;
+        private RepositoryRelaciones repoRela;
+        private RepositoryGeneros repoGeneros;
 
         public HomeController(ILogger<HomeController> logger,
             RepositoryConciertos repoConciertos,
             RepositoryArtistas repoArtistas,
             RepositoryPublicaciones repoPublicaciones,
-            IMemoryCache memoryCache)
+            IMemoryCache memoryCache,
+            RepositoryRelaciones repoRela,
+            RepositoryGeneros repoGeneros)
         {
             _logger = logger;
             this.repoConciertos =  repoConciertos;
             this.repoArtistas = repoArtistas;
             this.repoPublicaciones = repoPublicaciones;
             this.memoryCache = memoryCache;
+            this.repoRela = repoRela;
+            this.repoGeneros = repoGeneros;
         }
 
         public IActionResult Index()
@@ -50,6 +56,8 @@ namespace ProyectoWebCSNetCore.Controllers
                     this.memoryCache.Get<List<Evento>>("FAV");
                 ViewData["FAVORITOS"] = favoritos;
             }
+            List<Evento> destacados = this.repoConciertos.GetDestacados();
+            ViewData["DESTACADOS"] = destacados;
 
             List<Evento> eventos = this.repoConciertos.GetEventos();
             return View(eventos);
@@ -99,10 +107,31 @@ namespace ProyectoWebCSNetCore.Controllers
                 eventosFav.Add(evento);
 
                 this.memoryCache.Set("FAV", eventosFav);
+
+                List<ArtistaConcierto> relaciones = this.repoRela.GetArtistasConcierto(idevento);
+                List<Artista> artistasConcierto = new List<Artista>();
+                foreach (ArtistaConcierto artista in relaciones)
+                {
+                    Artista a = this.repoArtistas.FindArtista(artista.IdArtista);
+                    artistasConcierto.Add(a);
+                }
+
+                ViewData["ARTISTASCONCIERTO"] = artistasConcierto;
+
                 return View(evento);
             }
             else
             {
+                List<ArtistaConcierto> relaciones = this.repoRela.GetArtistasConcierto(idevento);
+                List<Artista> artistasConcierto = new List<Artista>();
+                foreach (ArtistaConcierto artista in relaciones)
+                {
+                    Artista a = this.repoArtistas.FindArtista(artista.IdArtista);
+                    artistasConcierto.Add(a);
+                }
+
+                ViewData["ARTISTASCONCIERTO"] = artistasConcierto;
+
                 Evento evento = this.repoConciertos.FindEvento(idevento);
                 return View(evento);
             }
@@ -119,6 +148,17 @@ namespace ProyectoWebCSNetCore.Controllers
         public IActionResult DetallesArtista(int idartista)
         {
             Artista artista = this.repoArtistas.FindArtista(idartista);
+
+            List<ArtistaGenero> relaciones = this.repoRela.GetGenerosArtista(idartista);
+            List<Genero> generosArtista = new List<Genero>();
+            foreach (ArtistaGenero artistaGenero in relaciones)
+            {
+                Genero genero = this.repoGeneros.FindGenero(artistaGenero.IdGenero);
+                generosArtista.Add(genero);
+            }
+
+            ViewData["GENEROSARTISTA"] = generosArtista;
+
             return View(artista);
         }
 

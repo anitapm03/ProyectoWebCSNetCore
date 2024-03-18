@@ -1,5 +1,9 @@
 ﻿@model Artista
 
+@{
+    List<Genero> generosArtista = ViewData["GENEROSARTISTA"] as List<Genero>;
+}
+
 <h1>Detalles del artista</h1>
 
 <div>
@@ -8,6 +12,22 @@
 <div>
     <h1>@Model.Nombre</h1>
     <p>@Model.Descripcion</p>
+    @if (generosArtista != null)
+    {
+        <h3>Géneros:</h3>
+        <ul class="list-group">
+            @foreach (Genero g in generosArtista)
+            {
+                <li>
+                    @g.Nombre
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p>Este artista no tiene géneros asignados</p>
+    }
     <a href="@Model.Spotify" class="btn btn-success">
         Spotify
     </a>

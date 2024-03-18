@@ -1,5 +1,8 @@
 ﻿@model Artista
-
+@{
+    List<Genero> generos = ViewData["GENEROS"] as List<Genero>;
+    List<Genero> generosArtista = ViewData["GENEROSARTISTA"] as List<Genero>;
+}
 
 <h1>Editar artista:</h1>
 
@@ -15,4 +18,39 @@
     <textarea rows="3" name="descripcion" class="form-control">@Model.Descripcion </textarea>
     <br />
     <button class="btn btn-success">Guardar!</button>
+</form>
+
+<br />
+<h3>Generos del artista:</h3>
+
+@if(generosArtista != null)
+{
+    <ul class="list-group">
+        @foreach (Genero g in generosArtista)
+        {
+            <li>
+                @g.Nombre
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Este artista no tiene géneros asignados</p>
+}
+
+
+<form method="post">
+    <label>Añadir un género:</label>
+    <select name="idgenero" class="form-control">
+        @foreach (Genero g in generos)
+        {
+            <option value="@g.IdGenero">
+                @g.Nombre
+            </option>
+        }
+    </select>
+    <input type="hidden" name="idartista" value="@Model.IdArtista"/>
+    <br />
+    <button class="btn btn-success">Añadir género</button>
 </form>

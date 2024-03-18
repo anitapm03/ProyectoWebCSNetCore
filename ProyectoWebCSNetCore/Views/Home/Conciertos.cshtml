@@ -1,8 +1,10 @@
 ﻿@model List<Evento>
 
-    @{
-        Layout = "~/Views/Shared/_Layout.cshtml";
-        List<Evento> favoritos = memoryCache.Get<List<Evento>>("FAV");
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Evento> favoritos = memoryCache.Get<List<Evento>>("FAV");
+
+    List<Evento> destacados = ViewData["DESTACADOS"] as List<Evento>;
 
     }
 @section Styles {
@@ -32,7 +34,9 @@
     <div class="carousel-inner">
         @foreach (Evento e in favoritos)
         {
+
             <div class="carousel-item">
+
                 <div class="card">
                     <div class="img-wrapper">
                         <img src="~/images/eventos/@e.Imagen" class="d-block w-100" alt="@e.Nombre">
@@ -65,26 +69,71 @@
 </div>
 }
 
+@if (destacados.Count > 0){
+    <h2>Eventos destacados</h2>
+<div id="carouselExampleControls" class="carousel">
+    <div class="carousel-inner">
+
+        @foreach (Evento e in destacados)
+        {
+            <div class="carousel-item">
+                <a asp-controller="Home" asp-action="DetallesConcierto"
+                   asp-route-idevento="@e.IdConcierto"
+                   style="color: black;text-decoration: none;">
+                    <div class="card">
+                        <div class="img-wrapper">
+                            <img src="~/images/eventos/@e.Imagen" class="d-block w-100 "
+                                 alt="@e.Nombre" style="border-top-left-radius:10px;border-top-right-radius:10px;">
+                        </div>
+                        <div class="card-body">
+                            <h5>@e.Nombre</h5>
+                            <p class="card-text">
+                                @e.Fecha
+                            </p>
+                            @* <a asp-controller="Home" asp-action="DetallesConcierto"
+                        asp-route-idevento="@e.IdConcierto"
+                        class="btn btn-primary">Ver detalles!</a> *@
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+}
 
 <div id="carouselExampleControls" class="carousel">
     <div class="carousel-inner">
         @foreach (Evento e in Model)
         {
             <div class="carousel-item">
+                <a asp-controller="Home" asp-action="DetallesConcierto"
+                           asp-route-idevento="@e.IdConcierto"
+                   style="color: black;text-decoration: none;">
                 <div class="card">
                     <div class="img-wrapper">
-                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100 " alt="@e.Nombre">
+                        <img src="~/images/eventos/@e.Imagen" class="d-block w-100 " 
+                        alt="@e.Nombre" style="border-top-left-radius:10px;border-top-right-radius:10px;">
                     </div>
                     <div class="card-body">
                         <h5>@e.Nombre</h5>
                         <p class="card-text">
                             @e.Fecha
                         </p>
-                        <a asp-controller="Home" asp-action="DetallesConcierto"
+                        @* <a asp-controller="Home" asp-action="DetallesConcierto"
                            asp-route-idevento="@e.IdConcierto"
-                           class="btn btn-primary">Ver detalles!</a>
+                           class="btn btn-primary">Ver detalles!</a> *@
                     </div>
                 </div>
+                </a>
             </div>
         }
     </div>

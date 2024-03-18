@@ -111,6 +111,14 @@ GO
             return consulta.ToList();
         }
 
+        public List<Evento> GetDestacados()
+        {
+            var consulta = from datos in this.context.Eventos
+                           where datos.Destacado == true
+                           select datos;
+            return consulta.ToList();
+        }
+
         public Evento FindEvento(int idevento)
         {
             var consulta = from datos in this.context.Eventos

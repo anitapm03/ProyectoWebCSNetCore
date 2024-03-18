@@ -23,7 +23,24 @@ AS
 	DECLARE @ID INT
 	SELECT @ID = MAX(IDARTISTA_GENERO) + 1 FROM ARTISTA_GENERO
 	INSERT INTO ARTISTA_GENERO VALUES(@ID, @IDARTISTA, @IDGENERO)
-GO*/
+GO
+    
+    CREATE PROCEDURE DEL_ARTISTACONCIERTO
+(@IDCONCIERTO INT, 
+@IDARTISTA INT)
+AS
+	DELETE FROM ARTISTA_CONCIERTO WHERE IDARTISTA = @IDARTISTA AND
+	IDCONCIERTO = @IDCONCIERTO
+GO
+
+CREATE PROCEDURE DEL_GENEROARTISTA
+(@IDARTISTA INT, 
+@IDGENERO INT)
+AS
+	DELETE FROM ARTISTA_GENERO WHERE IDARTISTA = @IDARTISTA AND
+	IDGENERO = @IDGENERO
+GO
+     */
     #endregion
     public class RepositoryRelaciones
     {
@@ -33,14 +50,6 @@ GO*/
         {
             this.context = context;
         }
-
-        /*public List<ArtistaConcierto> GetArtistaConcierto()
-        {
-            var consulta = from datos in context.RelacionesConcierto
-                           select datos;
-            return consulta.ToList();
-        }*/
-
         public List<ArtistaConcierto> GetConciertosArtista(int idartista)
         {
             var consulta = from datos in context.RelacionesConcierto
@@ -59,7 +68,7 @@ GO*/
 
         public void InsertarArtistaConcierto(int idartista, int idconcierto)
         {
-            string sql = "ADD_ARTISTACONCIERTO @ICONCIERTO, @IDARTISTA";
+            string sql = "ADD_ARTISTACONCIERTO @IDCONCIERTO, @IDARTISTA";
             SqlParameter pcon = new SqlParameter("@IDCONCIERTO", idconcierto);
             SqlParameter part = new SqlParameter("@IDARTISTA", idartista);
 
@@ -70,7 +79,7 @@ GO*/
 
         public void InsertarArtistaGenero(int idartista, int idgenero)
         {
-            string sql = "ADD_GENEROARTISTA @ICONCIERTO, @IDGENERO";
+            string sql = "ADD_GENEROARTISTA @IDARTISTA, @IDGENERO";
             
             SqlParameter part = new SqlParameter("@IDARTISTA", idartista);
             SqlParameter pgen = new SqlParameter("@IDGENERO", idgenero);
@@ -78,20 +87,35 @@ GO*/
             this.context.Database.ExecuteSqlRaw
                 (sql, part, pgen);
         }
-        /*
-        public List<ArtistaGenero> GetArtistaGenero()
-        {
-            var consulta = from datos in context.RelacionesGenero
-                           select datos;
-            return consulta.ToList();
-        }
-        */
+        
         public List<ArtistaGenero> GetGenerosArtista(int idartista)
         {
             var consulta = from datos in context.RelacionesGenero
                            where datos.IdArtista == idartista
                            select datos;
             return consulta.ToList();
+        }
+
+        public void EliminarRelacionConcierto(int idconcierto, int idartista)
+        {
+            string sql = "DEL_ARTISTACONCIERTO @IDCONCIERTO, @IDARTISTA";
+
+            SqlParameter pcon = new SqlParameter("@IDCONCIERTO", idconcierto);
+            SqlParameter part = new SqlParameter("@IDARTISTA", idartista);
+
+            this.context.Database.ExecuteSqlRaw
+                (sql, pcon, part);
+        }
+
+        public void EliminarRelacionGenero(int idartista, int idgenero)
+        {
+            string sql = "DEL_GENEROARTISTA @IDARTISTA, @IDGENERO";
+
+            SqlParameter part = new SqlParameter("@IDARTISTA", idartista);
+            SqlParameter pgen = new SqlParameter("@IDGENERO", idgenero);
+
+            this.context.Database.ExecuteSqlRaw
+                (sql, part, pgen);
         }
     }
 }

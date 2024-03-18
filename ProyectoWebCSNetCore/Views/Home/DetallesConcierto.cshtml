@@ -1,5 +1,9 @@
 ﻿@model ProyectoWebCSNetCore.Models.Evento
 
+@{
+    List<Artista> artistasConcierto = ViewData["ARTISTASCONCIERTO"] as List<Artista>;
+}
+
 <div style="display: flex;">
 
     <div style="padding: 10px; margin: 10px;">
@@ -14,6 +18,25 @@
         <h2> @Model.Fecha.Date</h2>
 
         <h3> @Model.NombreSala / @Model.Direccion / @Model.Provincia</h3>
+
+        @if (artistasConcierto != null)
+        {
+            <h3>Artistas:</h3>
+            <ul class="list-group-horizontal">
+                @foreach (Artista a in artistasConcierto)
+                {
+                    <li class="list-group-item">
+                        <img src="~/images/artistas/@a.Imagen" width="60px" height="60px" />
+                        @a.Nombre
+                    </li>
+                }
+            </ul>
+            
+        }else
+        {
+            <p>No hay artistas asignados a este evento.</p>
+        }
+
         <a href="@Model.Entradas" class="btn btn-dark">Entradas</a>
         <a href="@Model.Grupo" class="btn btn-success">Grupo de Whatsapp</a>
 

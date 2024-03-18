@@ -1,5 +1,8 @@
 ﻿@model ModelEditConcierto
-
+@{
+    List<Artista> artistas = ViewData["ARTISTAS"] as List<Artista>;
+    List<Artista> artistasConciero = ViewData["ARTISTASCONCIERTO"] as List<Artista>;
+}
 <h1>Editar concierto</h1>
 
 <form method="post" enctype="multipart/form-data">
@@ -52,3 +55,39 @@ else
         Eliminar de destacados
     </a>
 }
+
+<br />
+
+
+@if (artistasConciero != null)
+{
+    <h3>Artistas:</h3>
+    <ul class="list-group">
+        @foreach (Artista artista in artistasConciero)
+        {
+            <li>
+                @artista.Nombre
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Este concierto no tiene artistas asignados.</p>
+}
+
+<br />
+<form method="post">
+    <label>Añadir un artista:</label>
+    <select name="idartista" class="form-control">
+        @foreach (Artista a in artistas)
+        {
+            <option value="@a.IdArtista">
+                @a.Nombre
+            </option>
+        }
+    </select>
+    <input type="hidden" name="idconcierto" value="@Model.Concierto.IdConcierto" />
+    <br />
+    <button class="btn btn-success">Añadir artista</button>
+</form>

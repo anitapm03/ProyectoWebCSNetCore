@@ -35,7 +35,15 @@ namespace ProyectoWebCSNetCore.Repositories
             var consulta = from datos in context.Generos
                            select datos;
             return consulta.ToList();
-        } 
+        }
+
+        public Genero FindGenero(int id)
+        {
+            var consulta = from datos in context.Generos
+                           where datos.IdGenero == id
+                           select datos;
+            return consulta.FirstOrDefault();
+        }
 
         public void InsertGenero(string nombre)
         {

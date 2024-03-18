@@ -21,6 +21,8 @@ namespace ProyectoWebCSNetCore.Models
         public string Entradas { get; set; }
         [Column("GRUPO")]
         public string Grupo { get; set; }
+        [Column("DESTACADO")]
+        public bool Destacado { get; set; }
         [Column("DIRECCION")]
         public string Direccion { get; set; }
         [Column("NOMBRESALA")]

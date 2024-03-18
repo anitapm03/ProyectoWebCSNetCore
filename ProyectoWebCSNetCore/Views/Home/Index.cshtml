@@ -1,8 +1,90 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Conciertos Solo";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div class="header container d-flex align-items-center justify-content-center ">
+    <div class="overlay"></div>
+    <h1>¿Qué es Conciertos Solo?</h1>
+</div>
+
+<div class="content container d-flex align-items-center justify-content-center " style="width: 60%">
+
+    <p style="text-align:center;">
+        El proyecto <strong>Conciertos Solo</strong>, iniciado en 2017, tiene como objetivo conectar a la gente que va sola a conciertos,
+        para que se relacionen y vayan juntos a los eventos.<br />
+        Ofrecemos un catálogo de eventos para <strong>todas las provincias</strong> de España.
+
+    </p>
+</div>
+
+<div name="galeria" style="width:60%; " class="container d-flex align-items-center justify-content-center ">
+
+    <div id="carouselExampleCaptions" class="carousel slide " data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="3" aria-label="Slide 4"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="4" aria-label="Slide 5"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="~/images/galeria/NevoAngel.jpg" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Nevo Angel Madrid</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/galeria/SlappyMadrid2.jpg" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Slappy AV Madrid</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/galeria/SlappyMadrid1.jpg" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Slappy AV Madrid Julio</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/galeria/Wos.jpg" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Wos Madrid</h5>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="~/images/galeria/YeloClub.jpg" class="d-block w-100">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Yelo Madrid Febrero</h5>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+
+<div style="padding: 30px; text-align: center;">
+    <h2>Síguenos en nuestras redes!</h2>
+
+    <a class="navbar-brand" href="https://twitter.com/ConciertosSolo">
+        <img src="~/images/logotwitter.png" alt="ConciertosSoloTwitter" width="70" height="70">
+    </a>
+
+    <a class="navbar-brand" href="https://www.instagram.com/conciertos.solo/">
+        <img src="~/images/logoig.png" alt="ConciertosSoloInstagram" width="70" height="70">
+    </a>
+
+    <a class="navbar-brand" href="@Html.Raw("https://www.tiktok.com/@conciertos.solo")">
+        <img src="~/images/logotiktok.png" alt="ConciertosSoloTiktok" width="70" height="70">
+    </a>
+
 </div>

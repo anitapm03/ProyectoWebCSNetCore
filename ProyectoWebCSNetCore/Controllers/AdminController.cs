@@ -17,6 +17,7 @@ namespace ProyectoWebCSNetCore.Controllers
         private RepositoryGeneros repoGeneros;
         private RepositorySesion repoSesion;
         private RepositoryPublicaciones repoPublicaciones;
+        private RepositoryRelaciones repoRela;
 
         public AdminController(RepositoryPeticiones repoPeticiones, 
             RepositoryConciertos repoConciertos, 
@@ -26,7 +27,8 @@ namespace ProyectoWebCSNetCore.Controllers
             RepositoryArtistas repoArtistas,
             RepositoryGeneros repoGeneros,
             RepositorySesion repoSesion,
-            RepositoryPublicaciones repoPublicaciones)
+            RepositoryPublicaciones repoPublicaciones,
+            RepositoryRelaciones repoRela)
         {
             this.repoPeticiones = repoPeticiones;
             this.repoConciertos = repoConciertos;
@@ -37,6 +39,7 @@ namespace ProyectoWebCSNetCore.Controllers
             this.repoGeneros = repoGeneros;
             this.repoSesion = repoSesion;
             this.repoPublicaciones = repoPublicaciones;
+            this.repoRela = repoRela;
         }
 
         public IActionResult PanelAdmin()
@@ -70,6 +73,19 @@ namespace ProyectoWebCSNetCore.Controllers
 
         public IActionResult EditarConcierto(int id)
         {
+            List<ArtistaConcierto> relaciones =
+                    this.repoRela.GetArtistasConcierto(id);
+            List<Artista> artistasConcierto = new List<Artista>();
+            foreach (ArtistaConcierto artistaConcierto in relaciones)
+            {
+                Artista artista = this.repoArtistas.FindArtista(artistaConcierto.IdArtista);
+                artistasConcierto.Add(artista);
+            }
+            List<Artista> artistas = this.repoArtistas.GetArtistas();
+
+            ViewData["ARTISTASCONCIERTO"] = artistasConcierto;
+            ViewData["ARTISTAS"] = artistas;
+
             Concierto concierto = this.repoConciertos.FindConcierto(id);
             List<Sala> salas = this.repoSalas.GetSalas();
             ModelEditConcierto model = new ModelEditConcierto();
@@ -80,33 +96,62 @@ namespace ProyectoWebCSNetCore.Controllers
         [HttpPost]
         public async Task<IActionResult> EditarConcierto
             (int id, string nombre, DateTime fecha, IFormFile foto, 
-             string entradas, int sala, string grupo)
+             string entradas, int sala, string grupo, 
+             int? idconcierto, int? idartista)
         {
-            if (foto != null)
+            
+            if(idconcierto != null && idartista != null)
             {
-                string rootFolder =
-                this.hostEnvironment.WebRootPath;
-                string fileName = foto.FileName;
+                this.repoRela.InsertarArtistaConcierto(idartista.Value, idconcierto.Value);
 
-                string path = Path.Combine(rootFolder, "images", "eventos", fileName);
-
-                using (Stream stream = new FileStream(path, FileMode.Create))
+                List<ArtistaConcierto> relaciones = 
+                    this.repoRela.GetArtistasConcierto(idconcierto.Value);
+                List<Artista> artistasConcierto = new List<Artista>();
+                foreach (ArtistaConcierto artistaConcierto in relaciones)
                 {
-                    await foto.CopyToAsync(stream);
+                    Artista artista = this.repoArtistas.FindArtista(artistaConcierto.IdArtista);
+                    artistasConcierto.Add(artista);
                 }
+                List<Artista> artistas = this.repoArtistas.GetArtistas();
 
-                this.repoConciertos.EditarConciertoFoto
-                    (id, nombre, fecha, fileName, entradas, sala, grupo);
-                return RedirectToAction("VerConciertos");
+                ViewData["ARTISTASCONCIERTO"] = artistasConcierto;
+                ViewData["ARTISTAS"] = artistas;
+                Concierto concierto = this.repoConciertos.FindConcierto(idconcierto.Value);
+                List<Sala> salas = this.repoSalas.GetSalas();
+                ModelEditConcierto model = new ModelEditConcierto();
+                model.Concierto = concierto;
+                model.Salas = salas;
+                return View(model);
             }
             else
             {
-                this.repoConciertos.EditarConcierto
-                    (id, nombre, fecha, entradas, sala, grupo);
-                return RedirectToAction("VerConciertos");
+                if (foto != null)
+                {
+                    string rootFolder =
+                    this.hostEnvironment.WebRootPath;
+                    string fileName = foto.FileName;
+
+                    string path = Path.Combine(rootFolder, "images", "eventos", fileName);
+
+                    using (Stream stream = new FileStream(path, FileMode.Create))
+                    {
+                        await foto.CopyToAsync(stream);
+                    }
+
+                    this.repoConciertos.EditarConciertoFoto
+                        (id, nombre, fecha, fileName, entradas, sala, grupo);
+                    return RedirectToAction("VerConciertos");
+                }
+                else
+                {
+                    this.repoConciertos.EditarConcierto
+                        (id, nombre, fecha, entradas, sala, grupo);
+                    return RedirectToAction("VerConciertos");
+                }
             }
-            
+
         }
+
 
         //DESTACAR
         public async Task<IActionResult> Destacar(int idconcierto)
@@ -207,35 +252,69 @@ namespace ProyectoWebCSNetCore.Controllers
         public IActionResult EditarArtista(int id)
         {
             Artista artista = this.repoArtistas.FindArtista(id);
+
+            List<ArtistaGenero> relaciones = this.repoRela.GetGenerosArtista(id);
+            List<Genero> generosArtista = new List<Genero>();
+            foreach (ArtistaGenero artistaGenero in relaciones)
+            {
+                Genero genero = this.repoGeneros.FindGenero(artistaGenero.IdGenero);
+                generosArtista.Add(genero);
+            }
+            List<Genero> generos = this.repoGeneros.GetGeneros();
+
+            ViewData["GENEROSARTISTA"] = generosArtista;
+            ViewData["GENEROS"] = generos;
+
             return View(artista);
         }
         [HttpPost]
         public async Task<IActionResult> EditarArtista
             (int id, string nombre, IFormFile foto,
-             string spotify, string descripcion)
+             string spotify, string descripcion, int? idartista, int? idgenero)
         {
-            if (foto != null)
+            if (idartista != null && idgenero != null)
             {
-                string rootFolder =
-                this.hostEnvironment.WebRootPath;
-                string fileName = foto.FileName;
+                this.repoRela.InsertarArtistaGenero(idartista.Value, idgenero.Value);
 
-                string path = Path.Combine(rootFolder, "images", "artistas", fileName);
-
-                using (Stream stream = new FileStream(path, FileMode.Create))
+                Artista artista = this.repoArtistas.FindArtista(idartista.Value);
+                List<ArtistaGenero> relaciones = this.repoRela.GetGenerosArtista(id);
+                List<Genero> generosArtista = new List<Genero>();
+                foreach (ArtistaGenero artistaGenero in relaciones)
                 {
-                    await foto.CopyToAsync(stream);
+                    Genero genero = this.repoGeneros.FindGenero(artistaGenero.IdGenero);
+                    generosArtista.Add(genero);
                 }
+                List<Genero> generos = this.repoGeneros.GetGeneros();
 
-                this.repoArtistas.EditarArtistaFoto
-                    (id, nombre, fileName, spotify, descripcion);
-                return RedirectToAction("VerArtistas");
-            }
-            else
+                ViewData["GENEROSARTISTA"] = generosArtista;
+                ViewData["GENEROS"] = generos;
+
+                return View(artista);
+            } else
             {
-                this.repoArtistas.EditarArtista
-                    (id, nombre, spotify, descripcion);
-                return RedirectToAction("VerArtistas");
+                if (foto != null)
+                {
+                    string rootFolder =
+                    this.hostEnvironment.WebRootPath;
+                    string fileName = foto.FileName;
+
+                    string path = Path.Combine(rootFolder, "images", "artistas", fileName);
+
+                    using (Stream stream = new FileStream(path, FileMode.Create))
+                    {
+                        await foto.CopyToAsync(stream);
+                    }
+
+                    this.repoArtistas.EditarArtistaFoto
+                        (id, nombre, fileName, spotify, descripcion);
+                    return RedirectToAction("VerArtistas");
+                }
+                else
+                {
+                    this.repoArtistas.EditarArtista
+                        (id, nombre, spotify, descripcion);
+                    return RedirectToAction("VerArtistas");
+                }
             }
 
         }
@@ -309,5 +388,15 @@ namespace ProyectoWebCSNetCore.Controllers
             this.repoPublicaciones.EliminarPubli(id);
             return RedirectToAction("VerPublicaciones");
         }
+
+
+        /*relaciones 
+        [HttpPost]
+        public IActionResult AddGeneroArtista(int idgenero, int idartista)
+        {
+            
+            this.repoRela.InsertarArtistaGenero(idartista, idgenero);
+            return RedirectToAction("EditarArtista");
+        }*/
     }
 }
