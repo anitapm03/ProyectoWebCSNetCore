@@ -11,57 +11,57 @@
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <div class="container">
+    <header >
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3 ">
+            <div class="container-fluid" >
+                <div class="container" >
                     <ul class="navbar-nav flex-grow-1">
                         <li class ="nav-item">
                             <a class="navbar-brand" href="#">
-                                <img src="~/images/logosinfondo.png" alt="ConciertosSolo" width="50" height="50">
+                                <img src="~/images/logosinfondoblanco.png" alt="ConciertosSolo" width="50" height="50">
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Index">¿Quienes somos?</a>
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Index">¿Quienes somos?</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Conciertos">Conciertos</a>
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Conciertos">Conciertos</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-controller="Home" asp-action="Artistas">Artistas</a>
+                            <a class="nav-link text-white" asp-controller="Home" asp-action="Artistas">Artistas</a>
                         </li>
 
                         @if (Context.Session.GetString("USUARIO") != null)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Home" asp-action="Publicaciones">Feed</a>
+                                <a class="nav-link text-white" asp-controller="Home" asp-action="Publicaciones">Feed</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Acciones" asp-action="CrearPubli">Crear Publicación</a>
+                                <a class="nav-link text-white" asp-controller="Acciones" asp-action="CrearPubli">Crear Publicación</a>
                             </li>
                         }
                         
                     </ul>
                 </div>
                 
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between ">
                     <ul class="navbar-nav flex-grow-1">
                         
                         
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <a class="nav-link dropdown-toggle dropdown" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <img src="~/images/iconouser.png" width="25" height="25" />
                             </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
                                 @if(Context.Session.GetString("USUARIO") == null)
                                 {
-                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Login">Log in</a>
-                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="Registro">Registrarse</a>
+                                    <a class="nav-link text-white" asp-controller="Sesion" asp-action="Login">Log in</a>
+                                    <a class="nav-link text-white" asp-controller="Sesion" asp-action="Registro">Registrarse</a>
                                 }
                                 else
                                 {
-                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="EditarPerfil">Perfil</a>
-                                    <a class="nav-link text-dark" asp-controller="Sesion" asp-action="CerrarSesion">Cerrar Sesión</a>
+                                    <a class="nav-link text-white" asp-controller="Sesion" asp-action="EditarPerfil">Perfil</a>
+                                    <a class="nav-link text-white" asp-controller="Sesion" asp-action="CerrarSesion">Cerrar Sesión</a>
                                 }
 
                             </div>
@@ -70,16 +70,9 @@
                         @if (Context.Session.GetString("ROL") == "1")
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Admin" asp-action="PanelAdmin">Administrar</a>
+                                <a class="nav-link text-white" asp-controller="Admin" asp-action="PanelAdmin">Administrar</a>
                             </li>
                         }
-                        else if (Context.Session.GetString("ROL") == "0")
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-controller="Acciones" asp-action="CrearPubli">Publicar</a>
-                            </li>
-                        }
-
                         
                     </ul>
                 </div>
@@ -88,7 +81,7 @@
     </header>
 
 
-    <div class="container">
+    <div class="container" >
         <main role="main" class="pb-3">
             @RenderBody()
         </main>

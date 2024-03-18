@@ -1,24 +1,42 @@
 ﻿@model List<UserPubli>
 
-<h1>Feed:</h1>
-
-<a asp-controller="Acciones" asp-action="CrearPubli"
-class="btn btn-outline-dark">Crear Publicacion</a>
-<br /><br />
-@foreach (UserPubli publi in Model){
-    <div class="card" style="width: 35rem; margin 10px;">
-
-        <h5 class="card-header">
-            <img src="~/images/users/@publi.ImgUser"
-            style="width:50px; height:50px; border-radius:10px;" />
-            @publi.NombreUsuario
-        </h5>
-
-        <div class="card-body">
-            <img src="~/images/publicaciones/@publi.Imagen" class="card-img-top" style="border-radius:10px;" />
-            <p class="card-text">
-                <strong>@publi.Texto</strong>
-            </p>
-        </div>
+<div class="header container align-items-center"
+    style="display: flex; justify-content: space-between;width: 70%">
+    <div style="text-align: left;">
+        <h2>Foro</h2>
     </div>
-}
+    <div style="text-align: right;">
+        <p>
+            <strong>Cuéntanos qué tal tu experiencia con nosotros!</strong>
+            <br />
+            <a asp-controller="Acciones" asp-action="CrearPubli"
+               class="btn btn-outline-dark">Crear Publicacion</a>
+        </p>
+    </div>
+</div>
+
+
+<div class="text-center">
+    @foreach (UserPubli publi in Model)
+    {
+        <div class="card" style="width: 35rem; margin: 20px; display: inline-block;">
+
+            <h5 class="card-header text-white bg-dark">
+                <img src="~/images/users/@publi.ImgUser"
+                     style="width:50px; height:50px; border-radius:10px;" />
+                @publi.NombreUsuario
+            </h5>
+
+            <div class="card-body bg-light">
+                <img src="~/images/publicaciones/@publi.Imagen" class="card-img-top" style="border-radius:10px;" />
+            </div>
+
+            <div class="card-footer text-white bg-dark">
+                <p class="card-text">
+                    <strong>@publi.Texto</strong>
+                </p>
+            </div>
+        </div>
+    }
+
+</div>
